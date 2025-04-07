@@ -231,6 +231,17 @@ public class Game{
 
     private void processHeroTurn(Hero hero){
         System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
+        if(hero.getRow() == 7){
+            System.out.print("You are in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered as N)");
+            String response = scanner.nextLine();
+            if(response.equalsIgnoreCase("y")){
+                System.out.println("Entering a market !");
+                MarketSpace ms= new MarketSpace(hero.getRow(), hero.getCol());
+                ms.enterMarket(hero);
+            }else{
+                System.out.println("Invalid input; you can not enter market now");
+            }
+        }
         System.out.println("1. Move  2. Attack  3. Use Item  4. Teleport  5. Recall  Q to quit ");
         String action = scanner.nextLine().trim().toLowerCase();
         if(action.equals("q")){
