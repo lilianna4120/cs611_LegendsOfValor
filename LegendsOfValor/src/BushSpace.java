@@ -11,7 +11,7 @@ public class BushSpace extends Space {
     @Override
     public void onEnter(Hero hero){
         hero.applyBonus("dexterity", 10);
-        System.out.println(hero.getName() + " went into a bush and gets a dexterity bonus !");
+        System.out.println(Utility.BLUE + hero.getName() + " went into a bush and gets a dexterity bonus !" + Utility.RESET);
     }
 
     @Override

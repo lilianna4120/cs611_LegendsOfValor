@@ -13,7 +13,7 @@ public class KoulouSpace extends Space {
     @Override
     public void onEnter(Hero hero) {
         hero.applyBonus("strength", 10);
-        System.out.println(hero.getName() + " steps into a koulou and gains a strength bonus!");
+        System.out.println(Utility.BLUE + hero.getName() + " steps into a koulou and gains a strength bonus !" + Utility.RESET);
     }
     
     @Override

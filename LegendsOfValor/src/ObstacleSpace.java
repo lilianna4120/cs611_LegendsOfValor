@@ -7,8 +7,7 @@ public class ObstacleSpace extends Space {
     
     @Override
     public boolean isAccessible() {
-        cleared = true;
-        return cleared; // Not accessible until cleared.
+        return cleared;
     }
     
     @Override
@@ -23,9 +22,18 @@ public class ObstacleSpace extends Space {
     public void display() {
         System.out.print(getSymbol() + " ");
     }
+
+    public void removeObstacle() {
+        cleared = true;
+        System.out.println("The obstacle at (" + row + "," + col + ") has been removed and is now a plain space.");
+    }
     
     public char getSymbol() {
-        return cleared ? 'P' : 'O'; // 'O' indicates an uncleared obstacle; once cleared, acts as a plain space.
+        if(cleared){
+            return 'P';
+        }else{
+            return 'O';
+        }
     }
 }
 
