@@ -15,7 +15,7 @@ public class Game{
         setupParty();
         monstersNum = 0;
         spawnMonsters();
-        round = 1;
+        round = 0;
     }   
 
     public void start(){
@@ -122,6 +122,7 @@ public class Game{
         //     }
         }
 
+        System.out.println("\n");
         System.out.println("Thank you for playing ! ");
         // displayScoreSummary();
         System.out.println("Bye ! ");
@@ -308,63 +309,6 @@ public class Game{
             if(!MovementUtil.moveHero(hero, dir, party, world)){
                 System.out.println(Utility.YELLOW + "You can't move there !" + Utility.RESET);
             }
-            // switch(input){
-            //     case "w":
-            //         party.move(world.getWidth(), world.getHeight(), r-1, c, world);
-            //         if(world.getTile(party.getPosition()) instanceof CommonTile){
-            //             if(Dice.roll()){
-            //                 System.out.println(Utility.YELLOW + "Battle begins ! " + Utility.RESET);
-            //                 Battle battle = new Battle(party);
-            //                 battle.startBattle();
-            //                 if(party.isDefeated()){
-            //                     System.out.println(Utility.RED + "Your heroes have been defeated. Game over." + Utility.RESET);
-            //                     quit = true;
-            //                 }
-            //             }
-            //         }
-            //         break;
-            //     case "a":
-            //         party.move(world.getWidth(), world.getHeight(), r, c-1, world);
-            //         if(world.getTile(party.getPosition()) instanceof CommonTile){
-            //             if(Dice.roll()){
-            //                 System.out.println(Utility.YELLOW + "Battle begins ! " + Utility.RESET);
-            //                 Battle battle = new Battle(party);
-            //                 battle.startBattle();
-            //                 if(party.isDefeated()){
-            //                     System.out.println(Utility.RED + "Your heroes have been defeated. Game over." + Utility.RESET);
-            //                     quit = true;
-            //                 }
-            //             }
-            //         }
-            //         break;
-            //     case "s":
-            //         party.move(world.getWidth(), world.getHeight(), r+1, c, world);
-            //         if(world.getTile(party.getPosition()) instanceof CommonTile){
-            //             if(Dice.roll()){
-            //                 System.out.println(Utility.RED + "Battle begins ! " + Utility.RESET);
-            //                 Battle battle = new Battle(party);
-            //                 battle.startBattle();
-            //                 if(party.isDefeated()){
-            //                     System.out.println(Utility.RED + "Your heroes have been defeated. Game over." + Utility.RESET);
-            //                     quit = true;
-            //                 }
-            //             }
-            //         }
-            //         break;
-            //     case "d":
-            //         party.move(world.getWidth(), world.getHeight(), r, c+1, world);
-            //         if(world.getTile(party.getPosition()) instanceof CommonTile){
-            //             if(Dice.roll()){
-            //                 System.out.println(Utility.YELLOW + "Battle begins ! " + Utility.RESET);
-            //                 Battle battle = new Battle(party);
-            //                 battle.startBattle();
-            //                 if(party.isDefeated()){
-            //                     System.out.println(Utility.RED + "Your heroes have been defeated. Game over." + Utility.RESET);
-            //                     quit = true;
-            //                 }
-            //             }
-            //         }
-            //         break;
     }
 
     private void heroAttack(Hero hero){
@@ -518,6 +462,7 @@ public class Game{
             target.takeDamage(damage);
             if (!target.isAlive()) {
                 System.out.println(target.getNickname() + " is defeated!");
+                party.addDeadHero(target);
             }
         } else {
             boolean moved = MovementUtil.moveMonster(monster, "S", world);
@@ -541,16 +486,20 @@ public class Game{
         // Check heroes:
         for (Hero hero : party.getHeroes()) {
             if (hero.getRow() == 0) {
-                System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win!" + Utility.RESET);
+                System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win !" + Utility.RESET);
                 return true;
             }
         }
         // Check monsters:
         for (Monster monster : party.getMonsters()) {
             if (monster.getRow() == world.getHeight() - 1) {
-                System.out.println(Utility.RED + monster.getNickname() + " has reached the Heroes' Nexus! Heroes lose!" + Utility.RESET);
+                System.out.println(Utility.RED + monster.getNickname() + " has reached the Heroes' Nexus! Heroes lose ..." + Utility.RESET);
                 return true;
             }
+        }
+        if(party.getDeadHeros().size() == 3){
+            System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
+            return true;
         }
         return false;
     }

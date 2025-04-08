@@ -28,21 +28,26 @@ public class MovementUtil {
         }
         
         if (newRow < 0 || newRow >= world.getHeight() || newCol < 0 || newCol >= world.getWidth()) {
-            System.out.println("Invalid input; you can't move out of bounds.");
+            System.out.println(Utility.YELLOW + "Invalid input; you can't move out of bounds." + Utility.RESET);
             return false;
         }
         
         if (!world.getSpace(newRow, newCol).isAccessible()) {
-            System.out.println("Invalid input; the cell you are trying to go is not accessible.");
+            System.out.println(Utility.YELLOW + "Invalid input; the cell you are trying to go is not accessible." + Utility.RESET);
+            return false;
+        }
+
+        if(!world.getSpace(newRow, newCol).isNotOccupiedbyHero(party.getHeroes())){
+            System.out.println(Utility.YELLOW + "You can not move there; it is occupied by other hero !" + Utility.RESET);
             return false;
         }
         
-        for (Hero h : party.getHeroes()) {
-            if (h != hero && h.isAlive() && h.getRow() == newRow && h.getCol() == newCol) {
-                System.out.println("Invalid input; the cell you are tring to go is already occupied by " + h.getName() + ".");
-                return false;
-            }
-        }
+        // for (Hero h : party.getHeroes()) {
+        //     if (h != hero && h.isAlive() && h.getRow() == newRow && h.getCol() == newCol) {
+        //         System.out.println("Invalid input; the cell you are tring to go is already occupied by " + h.getNickname() + ".");
+        //         return false;
+        //     }
+        // }
         
         int adjacentRow = currentRow;
         int adjacentCol = currentCol;
@@ -61,7 +66,9 @@ public class MovementUtil {
                 break;
         }
         for (Monster m : party.getMonsters()) {
-            if (m.isAlive() && m.getRow() == adjacentRow && m.getCol() == adjacentCol) {
+            if(m.getRow() == adjacentRow && m.getCol() == adjacentCol){
+                continue;
+            }else if (m.isAlive() && m.getRow() == adjacentRow && m.getCol() == adjacentCol) {
                 System.out.println("A monster (" + m.getName() + ") is blocking the way. You must defeat it first.");
                 return false;
             }
@@ -161,17 +168,17 @@ public class MovementUtil {
         int targetRow = target.getRow();
         int targetCol = target.getCol();
 
-        if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow+1, targetCol).isOccupiedbyHero(party.getHeroes())){
+        if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow+1, targetCol).isNotOccupiedbyHero(party.getHeroes())){
             String grid = "(" + (targetRow + 1) + ", " + targetCol + ")";
             availableSpaces.add(grid);
         }
 
-        if(targetCol-1 >= 0 && world.getSpace(targetRow, targetCol-1).isOccupiedbyHero(party.getHeroes())){
+        if(targetCol-1 >= 0 && world.getSpace(targetRow, targetCol-1).isNotOccupiedbyHero(party.getHeroes())){
             String grid = "(" + targetRow + ", " + (targetCol - 1) + ")";
             availableSpaces.add(grid);
         }
 
-        if(targetCol+1 < world.getHeight() && world.getSpace(targetRow, targetCol+1).isOccupiedbyHero(party.getHeroes())){
+        if(targetCol+1 < world.getHeight() && world.getSpace(targetRow, targetCol+1).isNotOccupiedbyHero(party.getHeroes())){
             String grid = "(" + targetRow + ", " + (targetCol + 1) + ")";
             availableSpaces.add(grid);
         }

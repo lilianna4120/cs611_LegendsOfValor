@@ -14,17 +14,17 @@ public abstract class Space {
     public abstract void onEnter(Hero hero);
     public abstract char getSymbol();
 
-    public boolean isOccupiedbyHero(List<Hero> heroes) {
-    if (!isAccessible()) {
-        return false;
-    }
-
-    for (Hero hero : heroes) {
-        if (hero.getRow() == this.row && hero.getCol() == this.col && hero.isAlive()) {
+    public boolean isNotOccupiedbyHero(List<Hero> heroes) {
+        if (!isAccessible()) {
             return false;
         }
-    }
 
-    return true;
+        for (Hero hero : heroes) {
+            if (hero.getRow() == this.row && hero.getCol() == this.col && hero.isAlive()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
