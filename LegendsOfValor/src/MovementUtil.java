@@ -161,19 +161,16 @@ public class MovementUtil {
         int targetRow = target.getRow();
         int targetCol = target.getCol();
 
-        //if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow + 1, targetCol).isAccessible()){ 
         if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow+1, targetCol).isOccupiedbyHero(party.getHeroes())){
             String grid = "(" + (targetRow + 1) + ", " + targetCol + ")";
             availableSpaces.add(grid);
         }
 
-        // if(targetCol - 1 >= 0 && world.getSpace(targetRow, targetCol - 1).isAccessible()){
         if(targetCol-1 >= 0 && world.getSpace(targetRow, targetCol-1).isOccupiedbyHero(party.getHeroes())){
             String grid = "(" + targetRow + ", " + (targetCol - 1) + ")";
             availableSpaces.add(grid);
         }
 
-        // if(targetCol + 1 < world.getHeight() && world.getSpace(targetRow, targetCol + 1).isAccessible()){
         if(targetCol+1 < world.getHeight() && world.getSpace(targetRow, targetCol+1).isOccupiedbyHero(party.getHeroes())){
             String grid = "(" + targetRow + ", " + (targetCol + 1) + ")";
             availableSpaces.add(grid);

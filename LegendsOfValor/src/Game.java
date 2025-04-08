@@ -14,7 +14,7 @@ public class Game{
         setupParty();
         monstersNum = 0;
         spawnMonsters();
-        round = 0;
+        round = 1;
     }   
 
     public void start(){
@@ -25,7 +25,7 @@ public class Game{
         while(!quit){
             // world.display(party);
             round++;
-            System.out.println(Utility.YELLOW + "\nRound" + round + Utility.RESET);
+            System.out.println(Utility.YELLOW + "\nRound " + round + Utility.RESET);
 
             for(Hero h: party.getHeroes()){
                 if(h.isAlive()){
