@@ -56,6 +56,10 @@ public abstract class Hero extends Characters {
         this.col = col;
     }
 
+    public int[] getPosition() {
+        return new int[] {this.row, this.col};
+    }
+
     public void assignNickname(String nickname){
         this.nickname = nickname;
     }

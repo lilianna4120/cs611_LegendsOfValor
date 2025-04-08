@@ -1,8 +1,10 @@
 // import java.util.Scanner;
 public class NexusSpace extends Space {
+    Market market;
 
     public NexusSpace(int row, int col) {
         super(row, col);
+        this.market = new Market();
     }
     
     @Override
@@ -41,6 +43,10 @@ public class NexusSpace extends Space {
     
     public char getSymbol() {
         return 'N';
+    }
+
+    public Market getMarket() {
+        return this.market;
     }
 }
 

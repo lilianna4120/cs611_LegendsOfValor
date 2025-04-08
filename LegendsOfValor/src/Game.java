@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game{
@@ -144,10 +145,14 @@ public class Game{
             System.out.println("     Gold: " + h.gold);
             System.out.println("----------------------");
         }
+
+        System.out.println("Welcome to Legends of Valor!");
+        System.out.println("You'll now choose 3 of the above heroes to add to your party.");
         
         party = new Party();
         Scanner scanner = new Scanner(System.in);
         int heroCount = 0;
+        ArrayList<Integer> chosenHeroes = new ArrayList<>();
         while (heroCount < 3) { 
             int choice = 0;
             while (true) {
@@ -160,13 +165,18 @@ public class Game{
                 choice = scanner.nextInt();
 
                 if (choice < 0 || choice > 17) {
-                    System.out.println("Invalid choice; Please enter a valid hero index or -1 to finish.");
+                    System.out.println("Invalid choice; Please enter a valid hero index.");
+                    continue;
+                }
+
+                if(chosenHeroes.contains(choice) ) {
+                    System.out.println("Invalid choice; You have already selected this hero.");
                     continue;
                 }
                 break;
             }
 
-
+            chosenHeroes.add(choice);
             Hero chosenHero = allHeroes.get(choice);
             String heroNickname = "H" + (heroCount+1);
             // System.out.print("Assign lane (1, 2, or 3) for " + chosenHero.getName() + ": ");
@@ -242,8 +252,9 @@ public class Game{
                 System.out.println("Invalid input; you can not enter market now");
             }
         }
-        System.out.println("1. Move  2. Attack  3. Use Item  4. Teleport  5. Recall  6. Remove Obstacle  Q. Quit ");
+        System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
         String action = scanner.nextLine().trim().toLowerCase();
+        
         if(action.equals("q")){
             System.out.println("Quitting the game ... ");
             System.exit(0);
@@ -255,9 +266,9 @@ public class Game{
                 break;
             case "2":
                 heroAttack(hero);
-
+                break;
             case "3":
-                // use item
+                heroUsePotion(hero);
                 break;
             case "4":
                 heroTeleport(hero);
@@ -273,6 +284,12 @@ public class Game{
                     System.out.println("Could not remove obstacle. Turn skipped.");
                 }
                 break;
+            case "7":
+              heroCastSpell(hero);
+              break;
+            case "8":
+              heroChangeWeaponOrArmor(hero);
+              break;
             default:
                 System.out.println("Invalid action; Your turn has been skipped.");
                 break;
@@ -350,6 +367,7 @@ public class Game{
         Monster target = getMonsterInRange(hero);
         if(target == null){
             System.out.println("There's no monster in attack range !");
+            return;
         }
 
         double damage = hero.attack();
@@ -358,6 +376,47 @@ public class Game{
         if(!target.isAlive()){
             System.out.println(target.getNickname() + " is defeated !");
         }
+    }
+
+    private void heroUsePotion(Hero hero){ 
+    }
+
+    private void heroCastSpell(Hero hero){ 
+        // TODO: 
+        // add ability to choose spell to be used
+        // add cause spell type based damage
+        Monster monster = getMonsterInRange(hero);
+        if(monster == null){
+            System.out.println("There's no monster in attack range !");
+            return;
+        }
+
+        Spell spellToCast = null;
+        for (Item item : hero.getInventory()) {
+            if (item instanceof Spell && item.isUsable()) {
+                spellToCast = (Spell) item;
+                break;
+            }
+        }
+        if (spellToCast != null) {
+            if (hero.mp >= spellToCast.getManaCost()) {
+                hero.mp -= spellToCast.getManaCost();
+                double spellDamage = spellToCast.getDamage() + (hero.dexterity / 10000.0) * spellToCast.getDamage();
+                System.out.println(Utility.CYAN + hero.getName() + " casts " + spellToCast.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
+                monster.takeDamage(spellDamage);
+                if (!monster.isAlive()) {
+                    System.out.println(Utility.GREEN + monster.getName() + " is defeated!"+ Utility.RESET);
+                }
+                spellToCast.use();
+            } else {
+                System.out.println(Utility.YELLOW + "Not enough MP to cast " + spellToCast.getName() + Utility.RESET);
+            }
+        } else {
+            System.out.println(Utility.YELLOW + "No spell available." + Utility.RESET);
+        }
+    }
+
+    private void heroChangeWeaponOrArmor(Hero hero){ 
     }
 
     private Monster getMonsterInRange(Hero hero){
@@ -442,8 +501,8 @@ public class Game{
         System.out.println("Enter W to move up, A to move left, D to move right, and S to move down.");
         System.out.println("Enter I to view instructions about the game.");
         System.out.println("Enter STATS to view hero and monster statistics.");
-        System.out.println("When on a market space, which is M on the board, press M to buy or sell items.");
-        System.out.println("Enter INV to see the inventory to equip items for each heroes.");
+        System.out.println("When on heroes' Nexus, which is N on the board, you'll have the option to buy or sell items at the Market.");
+        System.out.println("Enter INV to see the inventory full of items you can equip for each hero.");
         System.out.println("Enter MAP to display the world map.");
         System.out.println("You can't enter Inaccessible Tile, which is X on the board.");
         System.out.println("Press Q to quit the game at any time." + Utility.RESET);
