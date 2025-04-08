@@ -4,10 +4,12 @@ import java.util.List;
 public class Party {
     private List<Hero> heroes;
     private List<Monster> monsters;
+    private List<Hero> deadHeroes;
 
     public Party() {
         heroes = new ArrayList<>();
         monsters = new ArrayList<>();
+        deadHeroes = new ArrayList<>();
     }
 
     public void addHero(Hero hero){
@@ -39,6 +41,13 @@ public class Party {
         return null;
     }
 
+    public List<Hero> getDeadHeros(){
+        return deadHeroes;
+    }
+
+    public void addDeadHero(Hero hero){
+        deadHeroes.add(hero);
+    }
 
     // public void move(int width, int height, int newRow, int newCol, World world){
     //     if(newRow < 0 || newRow >= height || newCol < 0 || newCol >= width){

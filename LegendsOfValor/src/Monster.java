@@ -15,7 +15,7 @@ public abstract class Monster extends Characters {
 
     @Override
     public double attack() {
-        return baseDamage*0.3;
+        return baseDamage*0.1; // 0.3
     }
 
     @Override
