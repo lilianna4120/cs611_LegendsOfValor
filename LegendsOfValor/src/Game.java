@@ -243,27 +243,55 @@ public class Game{
 
     private void processHeroTurn(Hero hero){
         if(hero.getRow() == 7){
-            System.out.print(hero.getNickname() + " is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
-            String response = scanner.nextLine();
-            if(response.equalsIgnoreCase("y")){
-                System.out.println("Entering a market !");
-                MarketSpace ms= new MarketSpace(hero.getRow(), hero.getCol());
-                ms.enterMarket(hero);
-                world.display(party);
-            } else if(response.equalsIgnoreCase("n")) {
-                System.out.println("Not entering market.");
-            }
-            else{
-                System.out.println("Invalid input; you can not enter market now");
+            while(true) {
+                System.out.print(hero.getNickname() + " is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
+                String response = scanner.nextLine();
+                if(response.equalsIgnoreCase("y")){
+                    System.out.println("Entering a market !");
+                    MarketSpace ms= new MarketSpace(hero.getRow(), hero.getCol());
+                    ms.enterMarket(hero);
+                    world.display(party);
+                    break;
+                } else if(response.equalsIgnoreCase("n")) {
+                    System.out.println("Not entering market.");
+                    break;
+                } else if(response.equalsIgnoreCase("i")) {
+                    printInstructions();
+                } else if(response.equalsIgnoreCase("stats")) {
+                    // need to implement
+                } else if(response.equalsIgnoreCase("inv")) {
+                    // need to implement
+                } else if(response.equalsIgnoreCase("map")) {
+                    // need to implement
+                } else if(response.equalsIgnoreCase("q")) {
+                    System.out.println("Quitting the game ... ");
+                    System.exit(0);
+                } else{
+                    System.out.println("Invalid input; you can not enter market now");
+                    break;
+                }
             }
         }
-        System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
-        System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
-        String action = scanner.nextLine().trim().toLowerCase();
+        String action = "";
+        while(true) {
+            System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
+            System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
+            action = scanner.nextLine();
         
-        if(action.equals("q")){
-            System.out.println("Quitting the game ... ");
-            System.exit(0);
+            if(action.equalsIgnoreCase("q")){
+                System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
+                System.exit(0);
+            } else if(action.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(action.equalsIgnoreCase("stats")) {
+                // need to implement
+            } else if(action.equalsIgnoreCase("inv")) {
+                // need to implement
+            } else if(action.equalsIgnoreCase("map")) {
+                // need to implement
+            } else {
+                break;
+            }
         }
 
         switch(action){
@@ -505,7 +533,7 @@ public class Game{
         return false;
     }
     
-    private void printInstructions(){
+    public static void printInstructions(){
         System.out.println();
         System.out.println(Utility.YELLOW + "Instructions: \n");
         System.out.println("Make your way through the gameboard to the Monsters' Nexus.");
@@ -522,6 +550,27 @@ public class Game{
         System.out.println("Enter MAP to display the world map.");
         System.out.println("Enter Q to quit the game at any time." + Utility.RESET);
         System.out.println();
+        System.out.println(Utility.GREEN + "Enter X to exit Instructions" + Utility.RESET);
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            String response = scan.next();
+            if(response.equalsIgnoreCase("x")) {
+                break;
+            } else if(response.equalsIgnoreCase("i")) {
+                System.out.println("You're already viewing instructions");
+            } else if(response.equalsIgnoreCase("stats")) {
+                // need to implement
+            } else if(response.equalsIgnoreCase("inv")) {
+                // need to implement
+            } else if(response.equalsIgnoreCase("map")) {
+                // need to implement
+            } else if(response.equalsIgnoreCase("q")) {
+                System.out.println("Quitting the game ... ");
+                System.exit(0);
+            } else {
+                System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
+            }
+        }
     }
 
     private void displayScoreSummary(){
