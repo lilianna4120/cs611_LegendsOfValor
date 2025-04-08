@@ -11,7 +11,7 @@ public class CaveSpace extends Space {
     @Override
     public void onEnter(Hero hero){
         hero.applyBonus("agility", 10);
-        System.out.println(hero.getName() + " went into a cave and gets a agility bonus !");
+        System.out.println(Utility.BLUE + hero.getName() + " went into a cave and gets a agility bonus !" + Utility.RESET);
     }
 
     @Override
