@@ -99,13 +99,7 @@ public abstract class Hero extends Characters {
         return inventory;
     }
 
-    public void equipItem(int index){
-        if(index < 0 || index >= inventory.size()){
-            System.out.println("Invalid index.");
-            return;
-        }
-        Item item = inventory.get(index);
-        
+    public void equipItem(Item item){        
         if(item instanceof Weapon){
             equippedWeapon = (Weapon)item;
             System.out.println(name + " equipped weapon " + item.getName());
