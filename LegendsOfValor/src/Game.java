@@ -147,6 +147,7 @@ public class Game{
         }
 
         System.out.println("Welcome to Legends of Valor!");
+        System.out.println("Instructions are to follow, but");
         System.out.println("You'll now choose 3 of the above heroes to add to your party.");
         
         party = new Party();
@@ -557,15 +558,20 @@ public class Game{
     
     private void printInstructions(){
         System.out.println();
-        System.out.println(Utility.YELLOW + "Instructions: ");
+        System.out.println(Utility.YELLOW + "Instructions: \n");
+        System.out.println("Make your way through the gameboard to the Monsters' Nexus.");
+        System.out.println("Your goal to arrive at the Monsters' Nexus before they arrive at yours.");
+        System.out.println("But you'll have to work your way through the board and battle monsters to get there.");
+        System.out.println("Killed Heroes will respawn at their Nexus and killed Monsters will eventually be replaced with new ones.\n");
         System.out.println("Enter W to move up, A to move left, D to move right, and S to move down.");
+        System.out.println("When on heroes' Nexus, which is N on the board, you'll have the option to buy or sell items at the Market.");
+        System.out.println("You can't enter Inaccessible Tile, which is X on the board.\n");
+        System.out.println("General Commands to be used at any point during gameplay:");
         System.out.println("Enter I to view instructions about the game.");
         System.out.println("Enter STATS to view hero and monster statistics.");
-        System.out.println("When on heroes' Nexus, which is N on the board, you'll have the option to buy or sell items at the Market.");
         System.out.println("Enter INV to see the inventory full of items you can equip for each hero.");
         System.out.println("Enter MAP to display the world map.");
-        System.out.println("You can't enter Inaccessible Tile, which is X on the board.");
-        System.out.println("Press Q to quit the game at any time." + Utility.RESET);
+        System.out.println("Enter Q to quit the game at any time." + Utility.RESET);
         System.out.println();
     }
 
