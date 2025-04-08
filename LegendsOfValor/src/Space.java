@@ -1,3 +1,5 @@
+import java.util.List;
+
 public abstract class Space {
     protected int row;
     protected int col;
@@ -11,4 +13,18 @@ public abstract class Space {
     public abstract void display();
     public abstract void onEnter(Hero hero);
     public abstract char getSymbol();
+
+    public boolean isOccupiedbyHero(List<Hero> heroes) {
+    if (!isAccessible()) {
+        return false;
+    }
+
+    for (Hero hero : heroes) {
+        if (hero.getRow() == this.row && hero.getCol() == this.col && hero.isAlive()) {
+            return false;
+        }
+    }
+
+    return true;
+    }
 }

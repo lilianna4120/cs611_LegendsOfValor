@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public abstract class Hero extends Characters {
     protected double mp;
@@ -146,18 +148,50 @@ public abstract class Hero extends Characters {
         }
     }
 
-    public void teleport(Hero target){
-        int targetCol = target.getCol();
-        if(targetCol-1 >= 0){
-            setPosition(target.getRow(), targetCol-1);
-            System.out.println(name + " teleported adjacent to " + target.name + " to (" + getRow() + "," + getCol() + ")");
-        } else {
-            System.out.println("Teleport failed; no adjacent cell available.");
+    public void teleport(Hero hero, Hero target, World world, Party party){
+        HashMap<Integer, String> availableSpaces = new HashMap<Integer, String>();
+        availableSpaces = MovementUtil.getTelportableSpaces(target, world, party);
+        Scanner scanner = new Scanner(System.in);
+
+        if(availableSpaces.size() == 0){
+            System.out.println("You can't teleport near " + target.getNickname());
+        }else{
+            int index = -1;
+            while (true) {
+                try {
+                    index = Integer.parseInt(scanner.nextLine().trim());
+                    if (index >= 0 && index <= availableSpaces.size()) {
+                        break;
+                    } else {
+                        System.out.println(Utility.YELLOW + "Invalid input; Please enter an integer between 0 and " + availableSpaces.size() + " !" + Utility.RESET);
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(Utility.YELLOW + "Invalid input; Please enter a valid integer." + Utility.RESET);
+                }
+            }
+
+            String newRowStr = availableSpaces.get(index).substring(1, 2);
+            int newRow = Integer.parseInt(newRowStr);
+            String newColStr = availableSpaces.get(index).substring(4, 5);
+            int newCol = Integer.parseInt(newColStr);
+
+            hero.setPosition(newRow, newCol);
         }
+        
     }
 
     public void recall(int nexusRow){
-        setPosition(nexusRow, this.col);
+        String heroIntStr = nickname.substring(1);
+        int heroInt = Integer. parseInt(heroIntStr);
+        int col = 7;
+        if(heroInt == 1){
+            col = 0;
+        }else if(heroInt == 2){
+            col = 3;
+        }else if(heroInt == 3){
+            col = 6;
+        }
+        setPosition(nexusRow, col);
         System.out.println(name + " recalled to Nexus at (" + getRow() + "," + getCol() + ")");
     }
 
@@ -169,6 +203,18 @@ public abstract class Hero extends Characters {
         } else if(stat == "strength"){
             this.strength += bonus;
         }
-        System.out.println(name + "'s " + stat + " increased by " + bonus + "temporarily."); // CHANGE !!
+        System.out.println(name + "'s " + stat + " increased by " + bonus + " while the hero is in that space.");
+    }
+
+    public int getLane(){
+        int lane = 0;
+        if(this.col == 0 || this.col == 1){
+            lane = 1;
+        }else if(this.col == 3 || this.col == 4){
+            lane = 2;
+        }else if(this.col == 6 || this.col == 7){
+            lane = 3;
+        }
+        return lane;
     }
 }

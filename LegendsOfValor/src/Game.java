@@ -14,7 +14,7 @@ public class Game{
         setupParty();
         monstersNum = 0;
         spawnMonsters();
-        round = 0;
+        round = 1;
     }   
 
     public void start(){
@@ -23,9 +23,9 @@ public class Game{
         boolean quit = false;
 
         while(!quit){
-            world.display(party);
+            // world.display(party);
             round++;
-            System.out.println(Utility.YELLOW + "\nRound" + round + Utility.RESET);
+            System.out.println(Utility.YELLOW + "\nRound " + round + Utility.RESET);
 
             for(Hero h: party.getHeroes()){
                 if(h.isAlive()){
@@ -232,7 +232,7 @@ public class Game{
     private void processHeroTurn(Hero hero){
         System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
         if(hero.getRow() == 7){
-            System.out.print("You are in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered as N)");
+            System.out.print("You are in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
             String response = scanner.nextLine();
             if(response.equalsIgnoreCase("y")){
                 System.out.println("Entering a market !");
@@ -242,7 +242,7 @@ public class Game{
                 System.out.println("Invalid input; you can not enter market now");
             }
         }
-        System.out.println("1. Move  2. Attack  3. Use Item  4. Teleport  5. Recall  Q to quit ");
+        System.out.println("1. Move  2. Attack  3. Use Item  4. Teleport  5. Recall  6. Remove Obstacle  Q. Quit ");
         String action = scanner.nextLine().trim().toLowerCase();
         if(action.equals("q")){
             System.out.println("Quitting the game ... ");
@@ -261,8 +261,17 @@ public class Game{
                 break;
             case "4":
                 heroTeleport(hero);
+                break;
             case "5":
                 hero.recall(world.getHeight()-1);
+                break;
+            case "6":
+                System.out.print("Enter direction (W/A/S/D) to remove obstacle: ");
+                String direction = scanner.nextLine().trim();
+                boolean removed = MovementUtil.removeObstacle(hero, direction, world);
+                if (!removed) {
+                    System.out.println("Could not remove obstacle. Turn skipped.");
+                }
                 break;
             default:
                 System.out.println("Invalid action; Your turn has been skipped.");
@@ -271,8 +280,7 @@ public class Game{
     }
 
     private void heroMove(Hero hero){
-
-        System.out.print("Enter W/A/S/D to move !"); 
+        System.out.print("Enter W/A/S/D to move: "); 
             String dir = scanner.nextLine().trim().toLowerCase();
             // int r = hero.getRow();
             // int c = hero.getCol();
@@ -370,13 +378,17 @@ public class Game{
 
     private void heroTeleport(Hero hero) {
         System.out.print("Enter target hero to teleport adjacent to: ");
-        String targetName = scanner.nextLine().trim();
-        Hero target = party.getHerobyName(targetName);
+        String targetNickname = scanner.nextLine().trim().toUpperCase();
+        Hero target = party.getHerobyNickname(targetNickname);
         if (target == null) {
-            System.out.println("Target hero not found.");
+            System.out.println(Utility.YELLOW + "Target hero not found." + Utility.RESET);
             return;
         }
-        hero.teleport(target);
+        if(targetNickname.equalsIgnoreCase(hero.getNickname()) || hero.getLane() == target.getLane()){
+            System.out.println(Utility.YELLOW + "You have to move to different lane !" + Utility.RESET);
+            return;
+        }
+        hero.teleport(hero, target, world, party);
     }
 
     private void processMonsterTurn(Monster monster){

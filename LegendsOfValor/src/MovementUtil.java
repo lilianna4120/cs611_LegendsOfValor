@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class MovementUtil {
     public static boolean moveHero(Hero hero, String direction, Party party, World world) {
         int currentRow = hero.getRow();
@@ -28,13 +32,11 @@ public class MovementUtil {
             return false;
         }
         
-        // Check that the target cell is accessible.
         if (!world.getSpace(newRow, newCol).isAccessible()) {
             System.out.println("Invalid input; the cell you are trying to go is not accessible.");
             return false;
         }
         
-        // Check that the target cell is not already occupied by another hero.
         for (Hero h : party.getHeroes()) {
             if (h != hero && h.isAlive() && h.getRow() == newRow && h.getCol() == newCol) {
                 System.out.println("Invalid input; the cell you are tring to go is already occupied by " + h.getName() + ".");
@@ -42,8 +44,6 @@ public class MovementUtil {
             }
         }
         
-        // Check the adjacent cell in the direction of movement for a monster.
-        // This prevents a hero from moving behind a monster without defeating it first.
         int adjacentRow = currentRow;
         int adjacentCol = currentCol;
         switch (direction.toUpperCase()) {
@@ -67,7 +67,6 @@ public class MovementUtil {
             }
         }
         
-        // All checks passed; update the hero's position.
         hero.setPosition(newRow, newCol);
         System.out.println(hero.getName() + " moved to (" + newRow + ", " + newCol + ").");
         return true;
@@ -107,5 +106,87 @@ public class MovementUtil {
         monster.setPosition(newRow, newCol);
         System.out.println(monster.getName() + " moves to (" + newRow + ", " + newCol + ").");
         return true;
+    }
+
+    public static boolean removeObstacle(Hero hero, String direction, World world) {
+        int currentRow = hero.getRow();
+        int currentCol = hero.getCol();
+        int targetRow = currentRow;
+        int targetCol = currentCol;
+        
+        switch(direction.toUpperCase()) {
+            case "W":
+                targetRow = currentRow - 1;
+                break;
+            case "S":
+                targetRow = currentRow + 1;
+                break;
+            case "D":
+                targetCol = currentCol + 1;
+                break;
+            case "A":
+                targetCol = currentCol - 1;
+                break;
+            default:
+                System.out.println("Invalid input; please enter W/S/A/D to move");
+                return false;
+        }
+        
+        if (targetRow < 0 || targetRow >= world.getHeight() ||
+            targetCol < 0 || targetCol >= world.getWidth()) {
+            System.out.println("Target cell is out of bounds.");
+            return false;
+        }
+        
+        Space targetSpace = world.getSpace(targetRow, targetCol);
+        if (targetSpace instanceof ObstacleSpace) {
+            ObstacleSpace obstacle = (ObstacleSpace) targetSpace;
+            if (!obstacle.isAccessible()) {
+                obstacle.removeObstacle();
+                return true;
+            } else {
+                System.out.println("The obstacle has already been removed.");
+                return false;
+            }
+        } else {
+            System.out.println("There is no obstacle in that direction.");
+            return false;
+        }
+    }
+
+    public static HashMap<Integer, String> getTelportableSpaces(Hero target, World world, Party party){
+        ArrayList<String> availableSpaces = new ArrayList<>();
+        HashMap<Integer, String> availableSpacesWOnull = new HashMap<Integer, String>();
+
+        int targetRow = target.getRow();
+        int targetCol = target.getCol();
+
+        if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow+1, targetCol).isOccupiedbyHero(party.getHeroes())){
+            String grid = "(" + (targetRow + 1) + ", " + targetCol + ")";
+            availableSpaces.add(grid);
+        }
+
+        if(targetCol-1 >= 0 && world.getSpace(targetRow, targetCol-1).isOccupiedbyHero(party.getHeroes())){
+            String grid = "(" + targetRow + ", " + (targetCol - 1) + ")";
+            availableSpaces.add(grid);
+        }
+
+        if(targetCol+1 < world.getHeight() && world.getSpace(targetRow, targetCol+1).isOccupiedbyHero(party.getHeroes())){
+            String grid = "(" + targetRow + ", " + (targetCol + 1) + ")";
+            availableSpaces.add(grid);
+        }
+
+        int count = 1;
+        System.out.println("Choose from the followng available spaces: ");
+        for(int i = 0; i < availableSpaces.size(); i++){
+            if(availableSpaces.get(i) != null){
+                System.out.print(count + ": ");
+                System.out.println(availableSpaces.get(i));
+                availableSpacesWOnull.put(count, availableSpaces.get(i));
+                count++;
+            }
+        }
+
+        return availableSpacesWOnull;
     }
 }

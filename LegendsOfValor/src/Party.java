@@ -30,9 +30,9 @@ public class Party {
         return monsters;
     }
 
-    public Hero getHerobyName(String name){
+    public Hero getHerobyNickname(String nickname){
         for(Hero h: heroes){
-            if(h.getName().equalsIgnoreCase(name)){
+            if(h.getNickname().equalsIgnoreCase(nickname)){
                 return h;
             }
         }
