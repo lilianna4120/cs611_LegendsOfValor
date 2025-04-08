@@ -241,12 +241,13 @@ public class Game{
 
     private void processHeroTurn(Hero hero){
         if(hero.getRow() == 7){
-            System.out.print("You are in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
+            System.out.print(hero.getNickname() + " is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
             String response = scanner.nextLine();
             if(response.equalsIgnoreCase("y")){
                 System.out.println("Entering a market !");
                 MarketSpace ms= new MarketSpace(hero.getRow(), hero.getCol());
                 ms.enterMarket(hero);
+                world.display(party);
             } else if(response.equalsIgnoreCase("n")) {
                 System.out.println("Not entering market.");
             }
@@ -382,6 +383,34 @@ public class Game{
     }
 
     private void heroUsePotion(Hero hero){ 
+        ArrayList<Item> potions = new ArrayList<>();
+        for (Item item : hero.getInventory()) {
+            if (item instanceof Potion && item.isUsable()) {
+                System.out.print("[" + potions.size() + "]");
+                item.display();
+                potions.add(item);
+            }
+        }
+        System.out.println("Enter the index of one of the above potions to use it (or type 'exit' to select none)");
+       
+        String input = scanner.nextLine();
+        while(true) {
+            if(input.equalsIgnoreCase("exit")) {
+                System.out.println("You've opted to exit. Turn is over");
+                break;
+            }
+            try {
+                int idx = Integer.parseInt(input);
+                if(idx >= 0 && idx < potions.size()){
+                    hero.usePotion((Potion) potions.get(idx));
+                    break;
+                } else {
+                    System.out.println(Utility.RED + "Invalid potion index." + Utility.RESET);
+                }
+            } catch(NumberFormatException e) {
+                System.out.println(Utility.RED + "Invalid input. Please enter a valid integer." + Utility.RESET);
+            }
+    }
     }
 
     private void heroCastSpell(Hero hero){ 
@@ -420,6 +449,34 @@ public class Game{
     }
 
     private void heroChangeWeaponOrArmor(Hero hero){ 
+        ArrayList<Item> items = new ArrayList<>();
+        for (Item item : hero.getInventory()) {
+            if ((item instanceof Armor || item instanceof Weapon) && item.isUsable()) {
+                System.out.print("[" + items.size() + "]");
+                item.display();
+                items.add(item);
+            }
+        }
+        System.out.println("Enter the index of one of the above weapons or armors to use it (or type 'exit' to select none)");
+       
+        String input = scanner.nextLine();
+        while(true) {
+            if(input.equalsIgnoreCase("exit")) {
+                System.out.println("You've opted to exit. Turn is over");
+                break;
+            }
+            try {
+                int idx = Integer.parseInt(input);
+                if(idx >= 0 && idx < items.size()){
+                    hero.equipItem(items.get(idx));
+                    break;
+                } else {
+                    System.out.println(Utility.RED + "Invalid item index." + Utility.RESET);
+                }
+            } catch(NumberFormatException e) {
+                System.out.println(Utility.RED + "Invalid input. Please enter a valid integer." + Utility.RESET);
+            }
+        }
     }
 
     private Monster getMonsterInRange(Hero hero){
