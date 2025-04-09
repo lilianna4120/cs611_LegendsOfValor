@@ -200,8 +200,7 @@ public class Game{
             chosenHero.setPosition(world.getHeight()-1, col);
             chosenHero.assignNickname(heroNickname);
             party.addHero(chosenHero);
-            System.out.println(chosenHero.getNickname() + " assigned ("  + (world.getHeight()-1) + "," + col + ")");
-            System.out.println("\n");
+            System.out.println(Utility.BLUE + chosenHero.getNickname() + " assigned ("  + (world.getHeight()-1) + "," + col + ")" + Utility.RESET);
             heroCount++;  
         }
 
@@ -264,10 +263,10 @@ public class Game{
                 } else if(response.equalsIgnoreCase("map")) {
                     // need to implement
                 } else if(response.equalsIgnoreCase("q")) {
-                    System.out.println("Quitting the game ... ");
+                    System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
                     System.exit(0);
                 } else{
-                    System.out.println("Invalid input; you can not enter market now");
+                    System.out.println(Utility.YELLOW + "Invalid input; you can not enter market now" + Utility.RESET);
                     break;
                 }
             }
@@ -276,6 +275,7 @@ public class Game{
         while(true) {
             System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
             System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
+            System.out.println("Enter STATS for characters and monsters statistics, INV for inventory, and MAP for world map !");
             action = scanner.nextLine();
         
             if(action.equalsIgnoreCase("q")){
@@ -284,10 +284,41 @@ public class Game{
             } else if(action.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(action.equalsIgnoreCase("stats")) {
+                party.displayInfo();
                 // need to implement
             } else if(action.equalsIgnoreCase("inv")) {
+                
+                System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
+                for(int j = 0; j < hero.inventory.size(); j++){
+                    System.out.println(Utility.GREEN + "  [" + j + "] " + hero.inventory.get(j).getName() + Utility.RESET);
+                }
+                // System.out.println(Utility.YELLOW + "Enter item index to equip item or -1 to skip: " + Utility.RESET);
+                // int indexInt = 0;
+                // while(true){
+                //     String indexStr = scanner.nextLine();
+                //     try{
+                //         indexInt = Integer.parseInt(indexStr);
+                //         if(indexInt == -1){
+                //             break;
+                //         }
+                //         if(indexInt >= 0 && indexInt < hero.inventory.size()){
+                //             break;
+                //         }else{
+                //             System.out.println(Utility.YELLOW + "Invalid index; Enter a number between 0 and " + (hero.inventory.size() - 1) + ", or -1 to skip." + Utility.RESET);
+                //         }
+                //     } catch(NumberFormatException e){
+                //         System.out.println(Utility.YELLOW + "Invalid input; Please enter a valid integer." + Utility.RESET);
+                //     }
+                // }
+
+                // if(indexInt != -1){
+                //     Item item = hero.inventory.get(indexInt);
+                //     hero.equipItem(item);
+                // }
                 // need to implement
             } else if(action.equalsIgnoreCase("map")) {
+                System.out.println(Utility.CYAN + "Printing The World Map: " + Utility.RESET);
+                world.display(party);
                 // need to implement
             } else {
                 break;
@@ -407,10 +438,10 @@ public class Game{
             if (hero.mp >= spellToCast.getManaCost()) {
                 hero.mp -= spellToCast.getManaCost();
                 double spellDamage = spellToCast.getDamage() + (hero.dexterity / 10000.0) * spellToCast.getDamage();
-                System.out.println(Utility.CYAN + hero.getName() + " casts " + spellToCast.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
+                System.out.println(Utility.CYAN + hero.getNickname() + " casts " + spellToCast.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
                 monster.takeDamage(spellDamage);
                 if (!monster.isAlive()) {
-                    System.out.println(Utility.GREEN + monster.getName() + " is defeated!"+ Utility.RESET);
+                    System.out.println(Utility.GREEN + monster.getNickname() + " is defeated!"+ Utility.RESET);
                 }
                 spellToCast.use();
             } else {

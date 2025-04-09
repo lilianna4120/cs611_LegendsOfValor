@@ -61,7 +61,7 @@ public class World{
 
     public void display(Party party){
         System.out.println();
-    System.out.println("\n" + Utility.BLUE + "World Board:" + Utility.RESET);
+    System.out.println(Utility.BLUE + "World Board:" + Utility.RESET);
 
     // Create a horizontal separator string for the board.
     String horizontalSeparator = "";
