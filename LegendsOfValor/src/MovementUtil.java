@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MovementUtil {
     public static boolean moveHero(Hero hero, String direction, Party party, World world) {

@@ -3,6 +3,11 @@ import java.util.*;
 public class HeroLoader extends Loader<Hero> {
     @Override
     protected Hero parseLine(String line) {
+        return parseLine(line, null);
+    }
+
+    @Override
+    protected Hero parseLine(String line, String type) {
         String[] parts = line.split("\\s+");
         if (parts.length < 7) return null;
         String name = parts[0];
@@ -13,14 +18,21 @@ public class HeroLoader extends Loader<Hero> {
         int gold = Integer.parseInt(parts[5]);
         int experience = Integer.parseInt(parts[6]);
 
-        return new Warrior(name, mana, strength, agility, dexterity, gold, experience);
+        if(type.equalsIgnoreCase("Warriors")){
+            return new Warrior(name, mana, strength, agility, dexterity, gold, experience);
+        }else if(type.equalsIgnoreCase("Sorcerers")){
+            return new Sorcerer(name, mana, strength, agility, dexterity, gold, experience);
+        }else{
+            return new Paladin(name, mana, strength, agility, dexterity, gold, experience);
+        }
+        
     }
 
     public List<Hero> loadAllHeroes() {
         List<Hero> heroes = new ArrayList<>();
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Warriors.txt"));
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Sorcerers.txt"));
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Paladins.txt"));
+        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Warriors.txt", "Warriors"));
+        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Sorcerers.txt", "Sorcerers"));
+        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Paladins.txt", "Paladins"));
         return heroes;
     }
 }
