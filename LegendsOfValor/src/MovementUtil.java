@@ -64,13 +64,20 @@ public class MovementUtil {
                 adjacentCol = currentCol - 1;
                 break;
         }
+        // CHANGE HERE !! -- make hero can't go beyond monster  -- fixed but double check
         for (Monster m : party.getMonsters()) {
             if(m.getRow() == adjacentRow && m.getCol() == adjacentCol){
                 continue;
+            }else if(m.isAlive() && adjacentRow < m.getRow()){
+                if(adjacentCol == m.getCol()){
+                    System.out.println("A monster " + m.getNickname() + " is next to you. You must defeat it first.");
+                    return false;
+                }
             }else if (m.isAlive() && m.getRow() == adjacentRow && m.getCol() == adjacentCol) {
-                System.out.println("A monster (" + m.getName() + ") is blocking the way. You must defeat it first.");
+                System.out.println("A monster " + m.getNickname() + " is blocking the way. You must defeat it first.");
                 return false;
             }
+            
         }
         
         hero.setPosition(newRow, newCol);

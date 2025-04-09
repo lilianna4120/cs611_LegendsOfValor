@@ -54,10 +54,13 @@ public class Game{
                 spawnMonsters();
             }
 
-            // respawn heroes
-            if(party.getHeroes().size() < 3){
-                for(int i = 0; i < party.getHeroes().size(); i++){
-
+            // At the end of every round every hero that is still alive regains 10% of their hp and 10% of their mana.
+            // When a hero dies, they respawn in their specific Nexus space at the start of the next round.
+            for(Hero h: party.getHeroes()){
+                if(h.isAlive()){
+                    h.regains();
+                }else{
+                    h.respawn();
                 }
             }
         }
@@ -121,12 +124,6 @@ public class Game{
             chosenHeroes.add(choice);
             Hero chosenHero = allHeroes.get(choice);
             String heroNickname = "H" + (heroCount+1);
-            // System.out.print("Assign lane (1, 2, or 3) for " + chosenHero.getName() + ": ");
-            // int lane = Integer.parseInt(scanner.nextLine().trim());
-            // if (lane < 1 || lane > 3) {
-            //     System.out.println("Invalid lane. Try again.");
-            //     continue;
-            // }
 
             int col = 0;
             if(heroCount == 0){

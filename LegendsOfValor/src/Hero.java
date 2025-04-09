@@ -68,6 +68,22 @@ public abstract class Hero extends Characters {
         return nickname;
     }
 
+    public double getHP(){
+        return hp;
+    }
+
+    public double getMP(){
+        return mp;
+    }
+
+    public void setHP(Double newHP){
+        this.hp = newHP;
+    }
+
+    public void setMP(Double newMP){
+        this.mp = newMP;
+    }
+
     @Override
     public abstract double attack();
 
@@ -215,5 +231,31 @@ public abstract class Hero extends Characters {
             lane = 3;
         }
         return lane;
+    }
+
+    public void regains(){
+        double newHP = hp * 1.1;
+        double newMP = mp * 1.1;
+        setHP(newHP);
+        setMP(newMP);
+        System.out.println(Utility.BLUE + nickname + " regains to " + hp + " HP and " + mp + " MP !" + Utility.RESET);
+    }
+
+    public void respawn(){
+        this.hp = getMaxHP() / 2.0;
+        this.mp = getMaxMP() / 2.0;
+        int row = 7;
+        int col = 0;
+        String heroNum = nickname.substring(1);
+        int heroNumInt = Integer.parseInt(heroNum);
+        if(heroNumInt == 1){
+            col = 0;
+        }else if(heroNumInt == 2){
+            col = 3;
+        }else{
+            col = 6;
+        }
+        setPosition(row, col);
+        System.out.println(Utility.BLUE + nickname + " has respawned at (" + row + "," + col + ") with " + hp + " HP and " + mp + " MP !" + Utility.RESET);
     }
 }
