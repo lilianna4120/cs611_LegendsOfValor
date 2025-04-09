@@ -48,33 +48,21 @@ public class MovementUtil {
         //     }
         // }
         
-        int adjacentRow = currentRow;
-        int adjacentCol = currentCol;
-        switch (direction.toUpperCase()) {
-            case "W":
-                adjacentRow = currentRow - 1;
-                break;
-            case "S":
-                adjacentRow = currentRow + 1;
-                break;
-            case "D":
-                adjacentCol = currentCol + 1;
-                break;
-            case "A":
-                adjacentCol = currentCol - 1;
-                break;
-        }
+     
         for (Monster m : party.getMonsters()) {
-            if(m.getRow() == adjacentRow && m.getCol() == adjacentCol){
-                continue;
-            }else if (m.isAlive() && m.getRow() == adjacentRow && m.getCol() == adjacentCol) {
-                System.out.println("A monster (" + m.getName() + ") is blocking the way. You must defeat it first.");
-                return false;
+            if(m.isAlive() && Math.abs(m.getRow() - currentRow) <= 1 && Math.abs(m.getCol() - currentCol) <= 1){
+                int mRow = m.getRow();
+
+                if(currentRow >= mRow && newRow < mRow){
+                    System.out.println("A monster " + m.getNickname() + " is blocking the way. You must defeat it first.");
+                    return false;
+                }
             }
+            
         }
         
         hero.setPosition(newRow, newCol);
-        System.out.println(hero.getName() + " moved to (" + newRow + ", " + newCol + ").");
+        System.out.println(hero.getNickname() + " moved to (" + newRow + ", " + newCol + ").");
         return true;
     }
     
@@ -110,7 +98,7 @@ public class MovementUtil {
         }
         
         monster.setPosition(newRow, newCol);
-        System.out.println(monster.getName() + " moves to (" + newRow + ", " + newCol + ").");
+        System.out.println(monster.getNickname() + " moves to (" + newRow + ", " + newCol + ").");
         return true;
     }
 

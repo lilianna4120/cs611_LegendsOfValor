@@ -103,6 +103,7 @@ public class MarketSpace {
                 }
                     break;
                 case "2":
+
                 String sellInput = "";
                 while(true) {
                     System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);

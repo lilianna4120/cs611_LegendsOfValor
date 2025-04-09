@@ -68,12 +68,29 @@ public abstract class Hero extends Characters {
         return nickname;
     }
 
+    public double getHP(){
+        return hp;
+    }
+
+    public double getMP(){
+        return mp;
+    }
+
+    public void setHP(Double newHP){
+        this.hp = newHP;
+    }
+
+    public void setMP(Double newMP){
+        this.mp = newMP;
+    }
+
     @Override
     public abstract double attack();
 
     @Override
     public void displayInfo() {
-        System.out.println(Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
+        System.out.println("-------- Hero Info --------");
+        System.out.println(nickname + ": " + Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
         System.out.println("HP: " + Utility.createBar(hp, getMaxHP(), 20, Utility.GREEN) + " " + hp + "/" + getMaxHP());
         System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Utility.BLUE) + " " + mp + "/" + getMaxMP());
         System.out.println(Utility.YELLOW + "Gold: " + gold + Utility.RESET);
@@ -88,7 +105,7 @@ public abstract class Hero extends Characters {
         for (int i = 0; i < inventory.size(); i++) {
             System.out.println(Utility.CYAN + "[" + i + "] " + inventory.get(i).getName() + " (" + inventory.get(i).getUses() + " uses left)" + Utility.RESET);
         }
-        System.out.println("----------------------------");
+        System.out.println("---------------------------");
     }
 
     public void addItem(Item item){
@@ -121,10 +138,10 @@ public abstract class Hero extends Characters {
     public void equipItem(Item item){        
         if(item instanceof Weapon){
             equippedWeapon = (Weapon)item;
-            System.out.println(name + " equipped weapon " + item.getName());
+            System.out.println(nickname + " equipped weapon " + item.getName());
         }else if(item instanceof Armor){
             equippedArmor = (Armor) item;
-            System.out.println(name + "equipped armor " + item.getName());
+            System.out.println(nickname + "equipped armor " + item.getName());
         }else{
             System.out.println("This item cannot be equipped");
         }
@@ -252,5 +269,31 @@ public abstract class Hero extends Characters {
             lane = 3;
         }
         return lane;
+    }
+
+    public void regains(){
+        double newHP = hp * 1.1;
+        double newMP = mp * 1.1;
+        setHP(newHP);
+        setMP(newMP);
+        System.out.println(Utility.BLUE + nickname + " regains to " + hp + " HP and " + mp + " MP !" + Utility.RESET);
+    }
+
+    public void respawn(){
+        this.hp = getMaxHP() / 2.0;
+        this.mp = getMaxMP() / 2.0;
+        int row = 7;
+        int col = 0;
+        String heroNum = nickname.substring(1);
+        int heroNumInt = Integer.parseInt(heroNum);
+        if(heroNumInt == 1){
+            col = 0;
+        }else if(heroNumInt == 2){
+            col = 3;
+        }else{
+            col = 6;
+        }
+        setPosition(row, col);
+        System.out.println(Utility.BLUE + nickname + " has respawned at (" + row + "," + col + ") with " + hp + " HP and " + mp + " MP !" + Utility.RESET);
     }
 }

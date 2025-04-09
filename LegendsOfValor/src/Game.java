@@ -24,7 +24,6 @@ public class Game{
         boolean quit = false;
 
         while(!quit){
-            // world.display(party);
             round++;
             System.out.println(Utility.YELLOW + "\nRound " + round + Utility.RESET);
 
@@ -55,71 +54,15 @@ public class Game{
                 spawnMonsters();
             }
 
-
-
-
-            
-        //         case "i":
-        //             printInstructions();
-        //             break;
-        //         case "stats":
-        //             party.displayInfo();
-        //             break;
-        //         case "map":
-        //             world.display(party.getPosition());
-        //             break;
-        //         case "inv":
-        //             for (int i = 0; i < party.getHeroes().size(); i++) {
-        //                 Hero hero = party.getHeroes().get(i);
-        //                 System.out.println(Utility.YELLOW + "[" + i + "]" + hero.getName() + "'s Inventory:" + Utility.RESET);
-                        
-        //                 for (int j = 0; j < hero.inventory.size(); j++) {
-        //                     System.out.println(Utility.GREEN + "  [" + j + "] " + hero.inventory.get(j).getName() + Utility.RESET);
-        //                 }
-                        
-        //                 int idx = 0;
-        //                 while (true) {
-        //                     System.out.println("Invalid Input; Enter index to equip item or -1 to skip:");
-        //                     String index = scanner.nextLine();
-        //                     try {
-        //                         idx = Integer.parseInt(index);
-        //                         if (idx == -1) {
-        //                             break;
-        //                         }
-        //                         if (idx >= 0 && idx < hero.inventory.size()) {
-        //                             break;
-        //                         } else {
-        //                             System.out.println("Invalid index; Enter a number between 0 and " + (hero.inventory.size() - 1) + ", or -1 to skip.");
-        //                         }
-        //                     } catch (NumberFormatException e) {
-        //                         System.out.println("Invalid input; Please enter a valid integer.");
-        //                     }
-        //                 }
-        //                 if (idx != -1) {
-        //                     Item item = hero.inventory.get(idx);
-        //                     if (item instanceof Potion) {
-        //                         hero.usePotion((Potion)item);
-        //                     } else {
-        //                         hero.equipItem(idx);
-        //                     }
-        //                 }
-        //             }
-        //             break;
-        //         case "m":
-        //             if(world.getTile(party.getPosition()) instanceof MarketTile){
-        //                 MarketSpace market = world.getMarketAt(party.getPosition());
-        //                 market.enterMarket(party);
-        //             }else{
-        //                 System.out.println(Utility.RED + "You can only enter the market when you are on a market space !" + Utility.RESET);
-        //             }
-        //             break;
-        //         case "q":
-        //             quit = true;
-        //             break;
-        //         default:
-        //             System.out.println(Utility.RED + "Invalid input; Enter W/A/S/D to move, I for instruction, STATS for characters' statistics, M for market, INV for inventory, MAP for the map, and Q to quit ! " + Utility.RESET);
-        //             break;
-        //     }
+            // At the end of every round every hero that is still alive regains 10% of their hp and 10% of their mana.
+            // When a hero dies, they respawn in their specific Nexus space at the start of the next round.
+            for(Hero h: party.getHeroes()){
+                if(h.isAlive()){
+                    h.regains();
+                }else{
+                    h.respawn();
+                }
+            }
         }
 
         System.out.println("\n");
@@ -181,12 +124,6 @@ public class Game{
             chosenHeroes.add(choice);
             Hero chosenHero = allHeroes.get(choice);
             String heroNickname = "H" + (heroCount+1);
-            // System.out.print("Assign lane (1, 2, or 3) for " + chosenHero.getName() + ": ");
-            // int lane = Integer.parseInt(scanner.nextLine().trim());
-            // if (lane < 1 || lane > 3) {
-            //     System.out.println("Invalid lane. Try again.");
-            //     continue;
-            // }
 
             int col = 0;
             if(heroCount == 0){
@@ -398,8 +335,9 @@ public class Game{
         }
 
         while(true) {
-            if(potions.size() == 0) {
-                System.out.println("You have no potions to use. Turn ending.");
+            if(potions.size() <= 0){
+                System.out.println(Utility.YELLOW + "There's no potion " + hero.getNickname() + " can use ..." + Utility.RESET);
+                break;
             }
 
             System.out.println("Enter the index of one of the above potions to use it (or type 'exit' to select none)");
@@ -433,6 +371,7 @@ public class Game{
                 }
             }
         }
+
     }
 
     private void heroCastSpell(Hero hero){ 
@@ -514,8 +453,8 @@ public class Game{
         }
 
         while(true) {
-            if(items.size() == 0) {
-                System.out.println("You have no items to equip. Turn ending.");
+            if(items.size() <= 0){
+                System.out.println(Utility.YELLOW + "There's no Weapon or Armor " + hero.getNickname() + " can use ..." + Utility.RESET);
                 break;
             }
             System.out.println("Enter the index of one of the above items to equip it (or type 'exit' to select none)");
@@ -549,6 +488,7 @@ public class Game{
                 }
             }
         }
+        
     }
 
     private Monster getMonsterInRange(Hero hero){
@@ -638,10 +578,10 @@ public class Game{
                 return true;
             }
         }
-        if(party.getDeadHeros().size() == 3){
-            System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
-            return true;
-        }
+        // if(party.getDeadHeros().size() == 3){
+        //     System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
+        //     return true;
+        // }
         return false;
     }
     
