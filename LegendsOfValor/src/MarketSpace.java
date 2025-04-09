@@ -107,7 +107,15 @@ public class MarketSpace {
                     break;
                 case "2":
                 // TODO:
-                // need to print inventory
+                // need to print inventory:
+                System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
+                if(hero.inventory.size() == 0){
+                    System.out.println(hero.getNickname() + "'s inventory is empty !");
+                }
+                for(int j = 0; j < hero.inventory.size(); j++){
+                    System.out.println(Utility.GREEN + "  [" + j + "] " + hero.inventory.get(j).getName() + Utility.RESET);
+                }
+
                 String sellInput = "";
                 while(true) {
                     System.out.print("Enter the index of the item to sell (or type 'exit' to cancel): ");
