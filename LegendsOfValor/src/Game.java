@@ -512,10 +512,10 @@ public class Game{
                 return true;
             }
         }
-        if(party.getDeadHeros().size() == 3){
-            System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
-            return true;
-        }
+        // if(party.getDeadHeros().size() == 3){
+        //     System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
+        //     return true;
+        // }
         return false;
     }
     
