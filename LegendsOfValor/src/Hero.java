@@ -73,7 +73,8 @@ public abstract class Hero extends Characters {
 
     @Override
     public void displayInfo() {
-        System.out.println(Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
+        System.out.println("-------- Hero Info --------");
+        System.out.println(nickname + ": " + Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
         System.out.println("HP: " + Utility.createBar(hp, getMaxHP(), 20, Utility.GREEN) + " " + hp + "/" + getMaxHP());
         System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Utility.BLUE) + " " + mp + "/" + getMaxMP());
         System.out.println(Utility.YELLOW + "Gold: " + gold + Utility.RESET);
@@ -88,7 +89,7 @@ public abstract class Hero extends Characters {
         for (int i = 0; i < inventory.size(); i++) {
             System.out.println(Utility.CYAN + "[" + i + "] " + inventory.get(i).getName() + " (" + inventory.get(i).getUses() + " uses left)" + Utility.RESET);
         }
-        System.out.println("----------------------------");
+        System.out.println("---------------------------");
     }
 
     public void addItem(Item item){
@@ -102,10 +103,10 @@ public abstract class Hero extends Characters {
     public void equipItem(Item item){        
         if(item instanceof Weapon){
             equippedWeapon = (Weapon)item;
-            System.out.println(name + " equipped weapon " + item.getName());
+            System.out.println(nickname + " equipped weapon " + item.getName());
         }else if(item instanceof Armor){
             equippedArmor = (Armor) item;
-            System.out.println(name + "equipped armor " + item.getName());
+            System.out.println(nickname + "equipped armor " + item.getName());
         }else{
             System.out.println("This item cannot be equipped");
         }

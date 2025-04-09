@@ -74,7 +74,7 @@ public class MovementUtil {
         }
         
         hero.setPosition(newRow, newCol);
-        System.out.println(hero.getName() + " moved to (" + newRow + ", " + newCol + ").");
+        System.out.println(hero.getNickname() + " moved to (" + newRow + ", " + newCol + ").");
         return true;
     }
     
@@ -110,7 +110,7 @@ public class MovementUtil {
         }
         
         monster.setPosition(newRow, newCol);
-        System.out.println(monster.getName() + " moves to (" + newRow + ", " + newCol + ").");
+        System.out.println(monster.getNickname() + " moves to (" + newRow + ", " + newCol + ").");
         return true;
     }
 

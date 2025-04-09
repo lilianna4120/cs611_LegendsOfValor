@@ -60,6 +60,7 @@ public abstract class Monster extends Characters {
     public void displayInfo() {
         System.out.println("----- Monster Info -----");
         System.out.println("Name:     " + name);
+        System.out.println("Nickname: " + nickname);
         System.out.println("Level:    " + level);
         System.out.println("HP:       " + hp + "/" + getMaxHP());
         System.out.println("Damage:   " + baseDamage);
