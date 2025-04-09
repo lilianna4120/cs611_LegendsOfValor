@@ -185,20 +185,20 @@ public class Game{
                 if(response.equalsIgnoreCase("y")){
                     System.out.println("Entering a market !");
                     MarketSpace ms= new MarketSpace(hero.getRow(), hero.getCol());
-                    ms.enterMarket(hero);
+                    ms.enterMarket(hero, party, world);
                     world.display(party);
                     break;
                 } else if(response.equalsIgnoreCase("n")) {
                     System.out.println("Not entering market.");
                     break;
                 } else if(response.equalsIgnoreCase("i")) {
-                    printInstructions();
+                    Game.printInstructions();
                 } else if(response.equalsIgnoreCase("stats")) {
-                    // need to implement
+                    party.displayInfo();
                 } else if(response.equalsIgnoreCase("inv")) {
-                    // need to implement
+                    hero.printInventory();
                 } else if(response.equalsIgnoreCase("map")) {
-                    // need to implement
+                    world.printMap(party);
                 } else if(response.equalsIgnoreCase("q")) {
                     System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
                     System.exit(0);
@@ -212,58 +212,19 @@ public class Game{
         while(true) {
             System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
             System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
-            System.out.println("Enter STATS for characters and monsters statistics, INV for inventory, and MAP for world map !");
             action = scanner.nextLine();
         
-            if(action.equalsIgnoreCase("q")){
-                System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
-                System.exit(0);
-            } else if(action.equalsIgnoreCase("i")) {
+            if(action.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(action.equalsIgnoreCase("stats")) {
                 party.displayInfo();
-                // need to implement
             } else if(action.equalsIgnoreCase("inv")) {
-                
-                System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
-                if(hero.inventory.size() == 0){
-                    System.out.println(hero.getNickname() + "'s inventory is empty !");
-                }
-                for(int j = 0; j < hero.inventory.size(); j++){
-                    System.out.println(Utility.GREEN + "  [" + j + "] " + hero.inventory.get(j).getName() + Utility.RESET);
-                }
-
-
-                // uncomment if we want to let them equit item in the inventory !
-
-                // System.out.println(Utility.YELLOW + "Enter item index to equip item or -1 to skip: " + Utility.RESET);
-                // int indexInt = 0;
-                // while(true){
-                //     String indexStr = scanner.nextLine();
-                //     try{
-                //         indexInt = Integer.parseInt(indexStr);
-                //         if(indexInt == -1){
-                //             break;
-                //         }
-                //         if(indexInt >= 0 && indexInt < hero.inventory.size()){
-                //             break;
-                //         }else{
-                //             System.out.println(Utility.YELLOW + "Invalid index; Enter a number between 0 and " + (hero.inventory.size() - 1) + ", or -1 to skip." + Utility.RESET);
-                //         }
-                //     } catch(NumberFormatException e){
-                //         System.out.println(Utility.YELLOW + "Invalid input; Please enter a valid integer." + Utility.RESET);
-                //     }
-                // }
-
-                // if(indexInt != -1){
-                //     Item item = hero.inventory.get(indexInt);
-                //     hero.equipItem(item);
-                // }
-                // need to implement
+                hero.printInventory();
             } else if(action.equalsIgnoreCase("map")) {
-                System.out.println(Utility.CYAN + "Printing The World Map: " + Utility.RESET);
-                world.display(party);
-                // need to implement
+                world.printMap(party);
+            } else if(action.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
             } else {
                 break;
             }
@@ -286,13 +247,28 @@ public class Game{
                 hero.recall(world.getHeight()-1);
                 break;
             case "6":
-                System.out.print("Enter direction (W/A/S/D) to remove obstacle: ");
-                String direction = scanner.nextLine().trim();
-                boolean removed = MovementUtil.removeObstacle(hero, direction, world);
-                if (!removed) {
-                    System.out.println("Could not remove obstacle. Turn skipped.");
+                while(true) {
+                    System.out.print("Enter direction (W/A/S/D) to remove obstacle: ");
+                    String direction = scanner.nextLine().trim();
+                    if(direction.equalsIgnoreCase("i")) {
+                        Game.printInstructions();
+                    } else if(direction.equalsIgnoreCase("stats")) {
+                        party.displayInfo();
+                    } else if(direction.equalsIgnoreCase("inv")) {
+                        hero.printInventory();
+                    } else if(direction.equalsIgnoreCase("map")) {
+                        world.printMap(party);
+                    } else if(direction.equalsIgnoreCase("q")) {
+                        System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                        System.exit(0);
+                    } else {
+                        boolean removed = MovementUtil.removeObstacle(hero, direction, world);
+                        if (!removed) {
+                            System.out.println("Could not remove obstacle. Turn skipped.");
+                        }
+                        break;
+                    }
                 }
-                break;
             case "7":
               heroCastSpell(hero);
               break;
@@ -306,13 +282,31 @@ public class Game{
     }
 
     private void heroMove(Hero hero){
-        System.out.print("Enter W/A/S/D to move: "); 
-            String dir = scanner.nextLine().trim().toLowerCase();
-            // int r = hero.getRow();
-            // int c = hero.getCol();
-            if(!MovementUtil.moveHero(hero, dir, party, world)){
-                System.out.println(Utility.YELLOW + "You can't move there !" + Utility.RESET);
+        String dir = "";
+        while(true) {
+            System.out.print("Enter W/A/S/D to move: "); 
+            dir = scanner.nextLine().trim().toLowerCase();
+            if(dir.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(dir.equalsIgnoreCase("stats")) {
+                party.displayInfo();
+            } else if(dir.equalsIgnoreCase("inv")) {
+                hero.printInventory();
+            } else if(dir.equalsIgnoreCase("map")) {
+                world.printMap(party);
+            } else if(dir.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
+            } else {
+                break;
             }
+        }
+        
+        // int r = hero.getRow();
+        // int c = hero.getCol();
+        if(!MovementUtil.moveHero(hero, dir, party, world)){
+            System.out.println(Utility.YELLOW + "You can't move there ! Skipping turn." + Utility.RESET);
+        }
     }
 
     private void heroAttack(Hero hero){
@@ -340,17 +334,30 @@ public class Game{
             }
         }
 
-        if(potions.size() <= 0){
-            System.out.println(Utility.YELLOW + "There's no potion " + hero.getNickname() + " can use ..." + Utility.RESET);
-        }else{
+        while(true) {
+            if(potions.size() <= 0){
+                System.out.println(Utility.YELLOW + "There's no potion " + hero.getNickname() + " can use ..." + Utility.RESET);
+                break;
+            }
+
             System.out.println("Enter the index of one of the above potions to use it (or type 'exit' to select none)");
        
             String input = scanner.nextLine();
-            while(true) {
-                if(input.equalsIgnoreCase("exit")) {
-                    System.out.println("You've opted to exit. Turn is over");
-                    break;
-                }
+            if(input.equalsIgnoreCase("exit")) {
+                System.out.println("You've opted to exit. Turn is over");
+                break;
+            } else if(input.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(input.equalsIgnoreCase("stats")) {
+                party.displayInfo();
+            } else if(input.equalsIgnoreCase("inv")) {
+                hero.printInventory();
+            } else if(input.equalsIgnoreCase("map")) {
+                world.printMap(party);
+            } else if(input.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
+            } else {
                 try {
                     int idx = Integer.parseInt(input);
                     if(idx >= 0 && idx < potions.size()){
@@ -364,12 +371,11 @@ public class Game{
                 }
             }
         }
-        
+
     }
 
     private void heroCastSpell(Hero hero){ 
         // TODO: 
-        // add ability to choose spell to be used
         // add cause spell type based damage
         Monster monster = getMonsterInRange(hero);
         if(monster == null){
@@ -377,28 +383,62 @@ public class Game{
             return;
         }
 
-        Spell spellToCast = null;
+        ArrayList<Item> spells = new ArrayList<>();
         for (Item item : hero.getInventory()) {
             if (item instanceof Spell && item.isUsable()) {
-                spellToCast = (Spell) item;
-                break;
+                System.out.print("[" + spells.size() + "]");
+                item.display();
+                spells.add(item);
             }
         }
-        if (spellToCast != null) {
-            if (hero.mp >= spellToCast.getManaCost()) {
-                hero.mp -= spellToCast.getManaCost();
-                double spellDamage = spellToCast.getDamage() + (hero.dexterity / 10000.0) * spellToCast.getDamage();
-                System.out.println(Utility.CYAN + hero.getNickname() + " casts " + spellToCast.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
-                monster.takeDamage(spellDamage);
-                if (!monster.isAlive()) {
-                    System.out.println(Utility.GREEN + monster.getNickname() + " is defeated!"+ Utility.RESET);
-                }
-                spellToCast.use();
-            } else {
-                System.out.println(Utility.YELLOW + "Not enough MP to cast " + spellToCast.getName() + Utility.RESET);
+
+        while(true) {
+            if(spells.size() == 0) {
+                System.out.println("You have no spells to cast. Turn ending.");
+                break;
             }
-        } else {
-            System.out.println(Utility.YELLOW + "No spell available." + Utility.RESET);
+            System.out.println("Enter the index of one of the above spells to cast it (or type 'exit' to select none)");
+       
+            String input = scanner.nextLine();
+            if(input.equalsIgnoreCase("exit")) {
+                System.out.println("You've opted to exit. Turn is over");
+                break;
+            } else if(input.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(input.equalsIgnoreCase("stats")) {
+                party.displayInfo();
+            } else if(input.equalsIgnoreCase("inv")) {
+                hero.printInventory();
+            } else if(input.equalsIgnoreCase("map")) {
+                world.printMap(party);
+            } else if(input.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
+            } else {
+                try {
+                    int idx = Integer.parseInt(input);
+                    if(idx >= 0 && idx < spells.size()){
+                        Spell spell = (Spell)spells.get(idx);
+                        if (hero.mp >= spell.getManaCost()) {
+                            hero.mp -= spell.getManaCost();
+                            double spellDamage = spell.getDamage() + (hero.dexterity / 10000.0) * spell.getDamage();
+                            System.out.println(Utility.CYAN + hero.getNickname() + " casts " + spell.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
+                            monster.takeDamage(spellDamage);
+                            if (!monster.isAlive()) {
+                                System.out.println(Utility.GREEN + monster.getNickname() + " is defeated!"+ Utility.RESET);
+                            }
+                            spell.use();
+                        } else {
+                            System.out.println(Utility.YELLOW + "Not enough MP to cast " + spell.getName() + Utility.RESET);
+                        }
+                        break;
+                    } else {
+                        System.out.println(Utility.RED + "Invalid spell index." + Utility.RESET);
+                    }
+                } catch(NumberFormatException e) {
+                    System.out.println(Utility.RED + "Invalid input. Please enter a valid integer." + Utility.RESET);
+                }
+            }
         }
     }
 
@@ -411,17 +451,30 @@ public class Game{
                 items.add(item);
             }
         }
-        if(items.size() <= 0){
-            System.out.println(Utility.YELLOW + "There's no Weapon or Armor " + hero.getNickname() + " can use ..." + Utility.RESET);
-        }else{
-            System.out.println("Enter the index of one of the above weapons or armors to use it (or type 'exit' to select none) ");
+
+        while(true) {
+            if(items.size() <= 0){
+                System.out.println(Utility.YELLOW + "There's no Weapon or Armor " + hero.getNickname() + " can use ..." + Utility.RESET);
+                break;
+            }
+            System.out.println("Enter the index of one of the above items to equip it (or type 'exit' to select none)");
        
             String input = scanner.nextLine();
-            while(true) {
-                if(input.equalsIgnoreCase("exit")) {
-                    System.out.println("You've opted to exit. Turn is over");
-                    break;
-                }
+            if(input.equalsIgnoreCase("exit")) {
+                System.out.println("You've opted to exit. Turn is over");
+                break;
+            } else if(input.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(input.equalsIgnoreCase("stats")) {
+                party.displayInfo();
+            } else if(input.equalsIgnoreCase("inv")) {
+                hero.printInventory();
+            } else if(input.equalsIgnoreCase("map")) {
+                world.printMap(party);
+            } else if(input.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
+            } else {
                 try {
                     int idx = Integer.parseInt(input);
                     if(idx >= 0 && idx < items.size()){
@@ -455,16 +508,29 @@ public class Game{
     }
 
     private void heroTeleport(Hero hero) {
-        System.out.print("Enter target hero to teleport adjacent to: ");
-        String targetNickname = scanner.nextLine().trim().toUpperCase();
-        Hero target = party.getHerobyNickname(targetNickname);
-        if (target == null) {
-            System.out.println(Utility.YELLOW + "Target hero not found." + Utility.RESET);
-            return;
-        }
-        if(targetNickname.equalsIgnoreCase(hero.getNickname()) || hero.getLane() == target.getLane()){
-            System.out.println(Utility.YELLOW + "You have to move to different lane !" + Utility.RESET);
-            return;
+        Hero target;
+        while(true) {
+            System.out.print("Enter target hero to teleport adjacent to: ");
+            String targetNickname = scanner.nextLine().trim().toUpperCase();
+            target = party.getHerobyNickname(targetNickname);
+            if(targetNickname.equalsIgnoreCase("i")) {
+                Game.printInstructions();
+            } else if(targetNickname.equalsIgnoreCase("stats")) {
+                party.displayInfo();
+            } else if(targetNickname.equalsIgnoreCase("inv")) {
+                hero.printInventory();
+            } else if(targetNickname.equalsIgnoreCase("map")) {
+                world.printMap(party);
+            } else if(targetNickname.equalsIgnoreCase("q")) {
+                System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                System.exit(0);
+            } else if (target == null) {
+                System.out.println(Utility.YELLOW + "Target hero not found. Response should be H1, H2, or H3." + Utility.RESET);
+            } else if(targetNickname.equalsIgnoreCase(hero.getNickname()) || hero.getLane() == target.getLane()){
+                System.out.println(Utility.YELLOW + "You have to move to different lane !" + Utility.RESET);
+            } else {
+                break;
+            }
         }
         hero.teleport(hero, target, world, party);
     }
@@ -542,19 +608,9 @@ public class Game{
             String response = scan.next();
             if(response.equalsIgnoreCase("x")) {
                 break;
-            } else if(response.equalsIgnoreCase("i")) {
-                System.out.println("You're already viewing instructions");
-            } else if(response.equalsIgnoreCase("stats")) {
-                // need to implement
-            } else if(response.equalsIgnoreCase("inv")) {
-                // need to implement
-            } else if(response.equalsIgnoreCase("map")) {
-                // need to implement
-            } else if(response.equalsIgnoreCase("q")) {
-                System.out.println("Quitting the game ... ");
-                System.exit(0);
             } else {
                 System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
+                System.out.println("You must exit Instructions before enterring any other commands.");
             }
         }
     }

@@ -31,7 +31,7 @@ public class MarketSpace {
         }
     }
 
-    public void enterMarket(Hero hero) {
+    public void enterMarket(Hero hero, Party party, World world) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Utility.YELLOW + "Welcome to the Market!" + Utility.RESET);
         boolean exit = false;
@@ -40,19 +40,16 @@ public class MarketSpace {
             while(true) {
                 System.out.println("\nMarket Menu: 1. Buy  2. Sell  3. Repair  4. Exit");
                 choice = scanner.nextLine();
-                if(choice.equalsIgnoreCase("q")){
-                    System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
-                    System.exit(0);
-                } else if(choice.equalsIgnoreCase("i")) {
+                if(choice.equalsIgnoreCase("i")) {
                     Game.printInstructions();
                 } else if(choice.equalsIgnoreCase("stats")) {
-                    // need to implement
+                    party.displayInfo();
                 } else if(choice.equalsIgnoreCase("inv")) {
-                    // need to implement
+                    hero.printInventory();
                 } else if(choice.equalsIgnoreCase("map")) {
-                    // need to implement
+                    world.printMap(party);
                 } else if(choice.equalsIgnoreCase("q")) {
-                    System.out.println("Quitting the game ... ");
+                    System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
                     System.exit(0);
                 } else {
                     break;
@@ -67,17 +64,17 @@ public class MarketSpace {
                     input = scanner.nextLine();
                     if(input.equalsIgnoreCase("exit")) {
                         return;
-                    } else if(input.equalsIgnoreCase("q")){
-                        System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
-                        System.exit(0);
                     } else if(input.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(input.equalsIgnoreCase("stats")) {
-                        // need to implement
+                        party.displayInfo();
                     } else if(input.equalsIgnoreCase("inv")) {
-                        // need to implement
+                        hero.printInventory();
                     } else if(input.equalsIgnoreCase("map")) {
-                        // need to implement
+                        world.printMap(party);
+                    } else if(input.equalsIgnoreCase("q")) {
+                        System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                        System.exit(0);
                     } else {
                         break;
                     }
@@ -106,33 +103,28 @@ public class MarketSpace {
                 }
                     break;
                 case "2":
-                // TODO:
-                // need to print inventory:
-                System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
-                if(hero.inventory.size() == 0){
-                    System.out.println(hero.getNickname() + "'s inventory is empty !");
-                }
-                for(int j = 0; j < hero.inventory.size(); j++){
-                    System.out.println(Utility.GREEN + "  [" + j + "] " + hero.inventory.get(j).getName() + Utility.RESET);
-                }
 
                 String sellInput = "";
                 while(true) {
+                    System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
+                    for(int j = 0; j < hero.getInventory().size(); j++){
+                        System.out.println(Utility.GREEN + "  [" + j + "] " + hero.getInventory().get(j).getName() + Utility.RESET);
+                    }
                     System.out.print("Enter the index of the item to sell (or type 'exit' to cancel): ");
                     sellInput = scanner.nextLine();
                     if(sellInput.equalsIgnoreCase("exit")) {
                         return;
-                    } else if(sellInput.equalsIgnoreCase("q")){
-                        System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
-                        System.exit(0);
                     } else if(sellInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(sellInput.equalsIgnoreCase("stats")) {
-                        // need to implement
+                        party.displayInfo();
                     } else if(sellInput.equalsIgnoreCase("inv")) {
-                        // need to implement
+                        hero.printInventory();
                     } else if(sellInput.equalsIgnoreCase("map")) {
-                        // need to implement
+                        world.printMap(party);
+                    } else if(sellInput.equalsIgnoreCase("q")) {
+                        System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                        System.exit(0);
                     } else {
                         break;
                     }
@@ -160,17 +152,17 @@ public class MarketSpace {
                     itemInput = scanner.nextLine();
                     if(itemInput.equalsIgnoreCase("exit")) {
                         return;
-                    } else if(itemInput.equalsIgnoreCase("q")){
-                        System.out.println(Utility.RED + "Quitting the game..." + Utility.RESET);
-                        System.exit(0);
                     } else if(itemInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(itemInput.equalsIgnoreCase("stats")) {
-                        // need to implement
+                        party.displayInfo();
                     } else if(itemInput.equalsIgnoreCase("inv")) {
-                        // need to implement
+                        hero.printInventory();
                     } else if(itemInput.equalsIgnoreCase("map")) {
-                        // need to implement
+                        world.printMap(party);
+                    } else if(itemInput.equalsIgnoreCase("q")) {
+                        System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                        System.exit(0);
                     } else {
                         break;
                     }
@@ -195,6 +187,7 @@ public class MarketSpace {
                 }
                 break;
                 case "4":
+                    System.out.println("Exiting market!");
                     exit = true;
                     break;
                 default:

@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,5 +120,22 @@ public class World{
 
     public int getHeight(){
         return height;
+    }
+
+    public void printMap(Party party) {
+        System.out.println(Utility.CYAN + "Printing The World Map: " + Utility.RESET);
+        this.display(party);
+        System.out.println();
+        System.out.println(Utility.GREEN + "Enter X to exit Map" + Utility.RESET);
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            String response = scan.next();
+            if(response.equalsIgnoreCase("x")) {
+                break;
+            } else {
+                System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
+                System.out.println("You must exit Map before enterring any other commands.");
+            }
+        }
     }
 }

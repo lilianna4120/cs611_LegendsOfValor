@@ -171,16 +171,21 @@ public class MovementUtil {
         }
 
         int count = 1;
-        System.out.println("Choose from the followng available spaces: ");
         for(int i = 0; i < availableSpaces.size(); i++){
             if(availableSpaces.get(i) != null){
-                System.out.print(count + ": ");
-                System.out.println(availableSpaces.get(i));
                 availableSpacesWOnull.put(count, availableSpaces.get(i));
                 count++;
             }
         }
 
         return availableSpacesWOnull;
+    }
+
+    public static void printTeleportableSpaces(HashMap<Integer, String> spaces) {
+        System.out.println("Choose from the followng available spaces: ");
+        for(int i = 1; i <= spaces.size(); i++) {
+            System.out.print(i + ": ");
+            System.out.println(spaces.get(i));
+        }
     }
 }
