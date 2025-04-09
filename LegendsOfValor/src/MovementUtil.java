@@ -48,34 +48,15 @@ public class MovementUtil {
         //     }
         // }
         
-        int adjacentRow = currentRow;
-        int adjacentCol = currentCol;
-        switch (direction.toUpperCase()) {
-            case "W":
-                adjacentRow = currentRow - 1;
-                break;
-            case "S":
-                adjacentRow = currentRow + 1;
-                break;
-            case "D":
-                adjacentCol = currentCol + 1;
-                break;
-            case "A":
-                adjacentCol = currentCol - 1;
-                break;
-        }
-        // CHANGE HERE !! -- make hero can't go beyond monster  -- fixed but double check
+     
         for (Monster m : party.getMonsters()) {
-            if(m.getRow() == adjacentRow && m.getCol() == adjacentCol){
-                continue;
-            }else if(m.isAlive() && adjacentRow < m.getRow()){
-                if(adjacentCol == m.getCol()){
-                    System.out.println("A monster " + m.getNickname() + " is next to you. You must defeat it first.");
+            if(m.isAlive() && Math.abs(m.getRow() - currentRow) <= 1 && Math.abs(m.getCol() - currentCol) <= 1){
+                int mRow = m.getRow();
+
+                if(currentRow >= mRow && newRow < mRow){
+                    System.out.println("A monster " + m.getNickname() + " is blocking the way. You must defeat it first.");
                     return false;
                 }
-            }else if (m.isAlive() && m.getRow() == adjacentRow && m.getCol() == adjacentCol) {
-                System.out.println("A monster " + m.getNickname() + " is blocking the way. You must defeat it first.");
-                return false;
             }
             
         }
