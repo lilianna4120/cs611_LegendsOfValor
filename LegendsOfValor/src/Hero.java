@@ -92,7 +92,10 @@ public abstract class Hero extends Characters {
         System.out.println("-------- Hero Info --------");
         System.out.println(nickname + ": " + Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
         System.out.println("HP: " + Utility.createBar(hp, getMaxHP(), 20, Utility.GREEN) + " " + hp + "/" + getMaxHP());
-        System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Utility.BLUE) + " " + mp + "/" + getMaxMP());
+        System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Color.PURPLE) + " " + mp + "/" + getMaxMP());
+        System.out.println(Utility.BLUE + "Strength: " + strength + Utility.RESET);
+        System.out.println(Utility.BLUE + "Dexterity: " + dexterity + Utility.RESET);
+        System.out.println(Utility.BLUE + "Agility: " + agility + Utility.RESET);
         System.out.println(Utility.YELLOW + "Gold: " + gold + Utility.RESET);
         System.out.println(Utility.GREEN + "Exp: " + experience + Utility.RESET);
         if(equippedWeapon != null) {
