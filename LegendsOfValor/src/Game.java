@@ -63,6 +63,19 @@ public class Game{
                     h.respawn();
                 }
             }
+
+            ArrayList<Monster> killedMonsters = new ArrayList<>();
+            for(Monster m: party.getMonsters()) {
+                if(!m.isAlive()) {
+                    for(Hero h: party.getHeroes()) {
+                        h.gain(m);
+                    }
+                    killedMonsters.add(m);
+                }
+            }
+            for(Monster m: killedMonsters) {
+                party.removeMonster(m);
+            }
         }
 
         System.out.println("\n");
@@ -393,8 +406,8 @@ public class Game{
         }
 
         while(true) {
-            if(spells.size() == 0) {
-                System.out.println("You have no spells to cast. Turn ending.");
+            if(spells.size() <= 0){
+                System.out.println(Utility.YELLOW + "There's no spell " + hero.getNickname() + " can cast ..." + Utility.RESET);
                 break;
             }
             System.out.println("Enter the index of one of the above spells to cast it (or type 'exit' to select none)");

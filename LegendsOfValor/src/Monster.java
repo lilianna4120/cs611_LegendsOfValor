@@ -58,6 +58,7 @@ public abstract class Monster extends Characters {
 
     @Override
     public void displayInfo() {
+        System.out.println();
         System.out.println("----- Monster Info -----");
         System.out.println("Name:     " + name);
         System.out.println("Nickname: " + nickname);

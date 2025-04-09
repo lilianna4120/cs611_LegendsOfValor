@@ -44,7 +44,8 @@ public class MonsterLoader extends Loader<Monster> {
         List<Monster> threeMonsters = new ArrayList<>();
 
         int monsterSize = allMonsters.size();
-        for(int i = 0; i < 3; i++){
+        int i = 0;
+        while(i < 3) {
             Random rand = new Random();
             int randint = rand.nextInt(monsterSize);
             Monster m = allMonsters.get(randint);
@@ -53,7 +54,10 @@ public class MonsterLoader extends Loader<Monster> {
             // String newName = base.getName();
             // Monster m = generateMonster(newName, level);
             // threeMonsters.add(m);
-            threeMonsters.add(m);
+            if(m.getLevel() == level) {
+                threeMonsters.add(m);
+                i++;
+            }
         }
         return threeMonsters;
     }

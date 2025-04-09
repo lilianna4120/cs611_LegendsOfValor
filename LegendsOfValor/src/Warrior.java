@@ -27,6 +27,22 @@ class Warrior extends Hero {
 
         double totalAttack = (strength + weaponDamage + bonus);
 
-        return totalAttack*0.5;
+        return totalAttack*0.05;
+    }
+
+    public void levelUp() {
+        level++;
+        if(hp < getMaxHP()){
+            hp = getMaxHP();
+        }
+        if(mp < getMaxMP()){
+            mp = getMaxMP();
+        }
+        strength *= 1.05;
+        strength *= 1.05;
+        dexterity *= 1.05;
+        agility *= 1.05;
+        agility *= 1.05;
+        System.out.println(name + " leveled up to " + level + "!");
     }
 }

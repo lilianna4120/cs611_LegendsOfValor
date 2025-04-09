@@ -29,19 +29,7 @@ public abstract class Hero extends Characters {
         return level * 100;
     }
 
-    public void levelUp() {
-        level++;
-        if(hp < getMaxHP()){
-            hp = getMaxHP();
-        }
-        if(mp < getMaxMP()){
-            mp = getMaxMP();
-        }
-        strength *= 1.05;
-        dexterity *= 1.05;
-        agility *= 1.05;
-        System.out.println(name + " leveled up to " + level + "!");
-    }
+    public abstract void levelUp();
 
     public int getRow(){
         return row;
@@ -58,6 +46,22 @@ public abstract class Hero extends Characters {
 
     public int[] getPosition() {
         return new int[] {this.row, this.col};
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public int getGold() {
+        return this.gold;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getExperience() {
+        return this.experience;
     }
 
     public void assignNickname(String nickname){
@@ -87,19 +91,31 @@ public abstract class Hero extends Characters {
     @Override
     public abstract double attack();
 
+    public void gain(Monster m) {
+        this.setGold(this.getGold() + (m.getLevel() * 500)/3);
+        this.setExperience(this.getExperience() + (2*m.getLevel()));
+        if(this.getExperience() / 10 >= this.getLevel()) {
+            this.levelUp();
+        }
+    }
+
     @Override
     public void displayInfo() {
+        System.out.println();
         System.out.println("-------- Hero Info --------");
         System.out.println(nickname + ": " + Utility.CYAN + name + Utility.RESET + " (Level " + level + ")");
         System.out.println("HP: " + Utility.createBar(hp, getMaxHP(), 20, Utility.GREEN) + " " + hp + "/" + getMaxHP());
-        System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Utility.BLUE) + " " + mp + "/" + getMaxMP());
+        System.out.println("MP: " + Utility.createBar(mp, getMaxMP(), 20, Utility.PURPLE) + " " + mp + "/" + getMaxMP());
+        System.out.println(Utility.BLUE + "Strength: " + strength + Utility.RESET);
+        System.out.println(Utility.BLUE + "Dexterity: " + dexterity + Utility.RESET);
+        System.out.println(Utility.BLUE + "Agility: " + agility + Utility.RESET);
         System.out.println(Utility.YELLOW + "Gold: " + gold + Utility.RESET);
         System.out.println(Utility.GREEN + "Exp: " + experience + Utility.RESET);
         if(equippedWeapon != null) {
-            System.out.println(Utility.CYAN + "Equipped Weapon: " + equippedWeapon.getName() + Utility.RESET);
+            System.out.println(Utility.PURPLE + "Equipped Weapon: " + equippedWeapon.getName() + Utility.RESET);
         }
         if(equippedArmor != null) {
-            System.out.println(Utility.CYAN + "Equipped Armor: " + equippedArmor.getName() + Utility.RESET);
+            System.out.println(Utility.PURPLE + "Equipped Armor: " + equippedArmor.getName() + Utility.RESET);
         }
         System.out.println(Utility.CYAN + "Inventory: " + Utility.RESET);
         for (int i = 0; i < inventory.size(); i++) {
@@ -130,7 +146,7 @@ public abstract class Hero extends Characters {
                 break;
             } else {
                 System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
-                System.out.println("You must exit instructions before enterring any other commands.");
+                System.out.println("You must exit Inventory before enterring any other commands.");
             }
         }
     }
@@ -192,10 +208,11 @@ public abstract class Hero extends Characters {
             System.out.println("Turn ending");
         }else{
             int index = -1;
+            String idx;
             while (true) {
                 while(true) {
                     MovementUtil.printTeleportableSpaces(availableSpaces);
-                    String idx = scanner.nextLine().trim();
+                    idx = scanner.nextLine().trim();
                     if(idx.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(idx.equalsIgnoreCase("stats")) {
@@ -212,7 +229,7 @@ public abstract class Hero extends Characters {
                     }
                 }
                 try {
-                    index = Integer.parseInt(scanner.nextLine().trim());
+                    index = Integer.parseInt(idx);
                     if (index >= 0 && index <= availableSpaces.size()) {
                         break;
                     } else {
