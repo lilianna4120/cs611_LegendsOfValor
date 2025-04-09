@@ -25,6 +25,10 @@ public class Party {
         monsters.add(monster);
     }
 
+    public void removeMonster(Monster monster) {
+        monsters.remove(monster);
+    }
+
     public List<Hero> getHeroes() {
         return heroes;
     }
