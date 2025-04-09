@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Party {
     private List<Hero> heroes;
@@ -75,6 +76,18 @@ public class Party {
         System.out.println(Utility.CYAN + "Monsters Information:" + Utility.RESET);
         for(Monster m: monsters){
             m.displayInfo();
+        }
+        System.out.println();
+        System.out.println(Utility.GREEN + "Enter X to exit Stats" + Utility.RESET);
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            String response = scan.next();
+            if(response.equalsIgnoreCase("x")) {
+                break;
+            } else {
+                System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
+                System.out.println("You must exit Stats before enterring any other commands.");
+            }
         }
     }
 

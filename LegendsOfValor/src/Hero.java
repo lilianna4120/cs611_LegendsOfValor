@@ -99,6 +99,25 @@ public abstract class Hero extends Characters {
         return inventory;
     }
 
+    public void printInventory() {
+        System.out.println(Utility.YELLOW + this.getNickname() + "'s Inventory: " + Utility.RESET);
+        for(int j = 0; j < this.inventory.size(); j++){
+            System.out.println(Utility.GREEN + "  [" + j + "] " + this.inventory.get(j).getName() + Utility.RESET);
+        }
+        System.out.println();
+        System.out.println(Utility.GREEN + "Enter X to exit Inventory" + Utility.RESET);
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            String response = scan.next();
+            if(response.equalsIgnoreCase("x")) {
+                break;
+            } else {
+                System.out.println(Utility.RED + "Invalid resposne" + Utility.RESET);
+                System.out.println("You must exit instructions before enterring any other commands.");
+            }
+        }
+    }
+
     public void equipItem(Item item){        
         if(item instanceof Weapon){
             equippedWeapon = (Weapon)item;
@@ -153,9 +172,28 @@ public abstract class Hero extends Characters {
 
         if(availableSpaces.size() == 0){
             System.out.println("You can't teleport near " + target.getNickname());
+            System.out.println("Turn ending");
         }else{
             int index = -1;
             while (true) {
+                while(true) {
+                    MovementUtil.printTeleportableSpaces(availableSpaces);
+                    String idx = scanner.nextLine().trim();
+                    if(idx.equalsIgnoreCase("i")) {
+                        Game.printInstructions();
+                    } else if(idx.equalsIgnoreCase("stats")) {
+                        party.displayInfo();
+                    } else if(idx.equalsIgnoreCase("inv")) {
+                        hero.printInventory();
+                    } else if(idx.equalsIgnoreCase("map")) {
+                        world.printMap(party);
+                    } else if(idx.equalsIgnoreCase("q")) {
+                        System.out.println(Utility.RED + "Quitting the game ... " + Utility.RESET);
+                        System.exit(0);
+                    } else {
+                        break;
+                    }
+                }
                 try {
                     index = Integer.parseInt(scanner.nextLine().trim());
                     if (index >= 0 && index <= availableSpaces.size()) {
