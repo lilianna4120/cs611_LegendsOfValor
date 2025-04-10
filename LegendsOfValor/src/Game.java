@@ -103,7 +103,7 @@ public class Game{
             System.out.println("----------------------");
         }
 
-        System.out.println("Welcome to Legends of Valor!");
+        System.out.println(Utility.PURPLE + "Welcome to Legends of Valor!" + Utility.RESET);
         System.out.println("Instructions are to follow, but");
         System.out.println("You'll now choose 3 of the above heroes to add to your party.");
         
