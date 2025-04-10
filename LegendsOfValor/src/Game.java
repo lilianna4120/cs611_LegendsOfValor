@@ -126,16 +126,19 @@ public class Game{
                     System.out.println("Invalid choice; Please enter a valid hero index.");
                     continue;
                 }
-
-                if(chosenHeroes.contains(choice) ) {
-                    System.out.println("Invalid choice; You have already selected this hero.");
-                    continue;
-                }
                 break;
             }
 
             chosenHeroes.add(choice);
-            Hero chosenHero = allHeroes.get(choice);
+            Hero chosenHero;
+            Hero template = allHeroes.get(choice);
+            if(template instanceof Warrior) {
+                chosenHero = new Warrior(template.getName(), (int)template.getMP(), (int)template.getStrength(), (int)template.getAgility(), (int)template.getDexterity(), template.getGold(), template.getExperience());
+            } else if(template instanceof Paladin) {
+                chosenHero = new Paladin(template.getName(), (int)template.getMP(), (int)template.getStrength(), (int)template.getAgility(), (int)template.getDexterity(), template.getGold(), template.getExperience());
+            } else {
+                chosenHero = new Sorcerer(template.getName(), (int)template.getMP(), (int)template.getStrength(), (int)template.getAgility(), (int)template.getDexterity(), template.getGold(), template.getExperience());
+            }
             String heroNickname = "H" + (heroCount+1);
 
             int col = 0;
@@ -167,27 +170,22 @@ public class Game{
         }
 
         List<Monster> monstersList = MonsterLoader.generateThreeMonsters(maxHeroLevel);
-        Monster m1 = monstersList.get(0);
-        monstersNum++;
-        String n1 = "M" + monstersNum;
-        m1.assignNickname(n1);
-        m1.setPosition(0, 1);
-
-        Monster m2 = monstersList.get(1);
-        monstersNum++;
-        String n2 = "M" + monstersNum;
-        m2.assignNickname(n2);
-        m2.setPosition(0, 4);
-
-        Monster m3 = monstersList.get(2);
-        monstersNum++;
-        String n3 = "M" + monstersNum;
-        m3.assignNickname(n3);
-        m3.setPosition(0, 7);
-
-        party.addMonster(m1);
-        party.addMonster(m2);
-        party.addMonster(m3);
+        for(int i = 0; i < 3; i++) {
+            Monster chosenMonster;
+            Monster template = monstersList.get(i);
+            if(template instanceof Dragon) {
+                chosenMonster = new Dragon(template.getName(), template.getLevel(), template.getDamage(), template.getDefense(), template.getDodge());
+            } else if(template instanceof Exoskeleton) {
+                chosenMonster = new Exoskeleton(template.getName(), template.getLevel(), template.getDamage(), template.getDefense(), template.getDodge());
+            } else {
+                chosenMonster = new Spirit(template.getName(), template.getLevel(), template.getDamage(), template.getDefense(), template.getDodge());
+            }
+            monstersNum ++;
+            String n = "M" + monstersNum;
+            chosenMonster.assignNickname(n);
+            chosenMonster.setPosition(0, i*3 + 1);
+            party.addMonster(chosenMonster);
+        }
     }
 
     private void processHeroTurn(Hero hero){
@@ -390,7 +388,7 @@ public class Game{
 
     private void heroCastSpell(Hero hero){ 
         // TODO: 
-        // add cause spell type based damage
+        // add spell type based damage
         Monster monster = getMonsterInRange(hero);
         if(monster == null){
             System.out.println("There's no monster in attack range !");
@@ -601,20 +599,26 @@ public class Game{
     
     public static void printInstructions(){
         System.out.println();
-        System.out.println(Utility.YELLOW + "Instructions: \n");
-        System.out.println("Make your way through the gameboard to the Monsters' Nexus.");
-        System.out.println("Your goal to arrive at the Monsters' Nexus before they arrive at yours.");
-        System.out.println("But you'll have to work your way through the board and battle monsters to get there.");
-        System.out.println("Killed Heroes will respawn at their Nexus and killed Monsters will eventually be replaced with new ones.\n");
-        System.out.println("Enter W to move up, A to move left, D to move right, and S to move down.");
-        System.out.println("When on heroes' Nexus, which is N on the board, you'll have the option to buy or sell items at the Market.");
-        System.out.println("You can't enter Inaccessible Tile, which is X on the board.\n");
-        System.out.println("General Commands to be used at any point during gameplay:");
+        System.out.println(Utility.YELLOW_BOLD_BRIGHT + "Instructions: \n" + Utility.RESET);
+        System.out.println(Utility.YELLOW + "Make your way through the gameboard to the Monsters' Nexus.");
+        System.out.println("Your goal is to arrive at the Monsters' Nexus before they arrive at yours.");
+        System.out.println("But you'll have to work your way through the board and battle Monsters to get there.");
+        System.out.println("Killed Heroes will respawn at their Nexus and additional Monsters will spwan every few rounds.\n");
+        System.out.println(Utility.YELLOW_BOLD_BRIGHT + "Board Spaces:" + Utility.RESET);
+        System.out.println(Utility.PURPLE + Utility.PURPLE_BACKGROUND_BRIGHT + "NEXUS" + Utility.RESET + ":\t\tserves as respawn + recall space for heroes/monsters. heroes can use any hero nexus as a market");
+        System.out.println(Utility.WHITE + Utility.BLACK_BACKGROUND + "INACCESSIBLE" + Utility.RESET + ":\tno player can ever enter");
+        System.out.println(Utility.RED + "OBSTACLE" + Utility.RESET + ":\theroes must remove before heroes or monsters can enter space");
+        System.out.println(Utility.BLUE + "PLAIN" + Utility.RESET + ":\t\tno special attribute");
+        System.out.println(Utility.GREEN + "BUSH" + Utility.RESET + ":\t\tincreases hero's dexterity while on it ");
+        System.out.println(Utility.CYAN + "CAVE" + Utility.RESET + ":\t\tincreases hero's agility while on it");
+        System.out.println(Utility.YELLOW + "KOULOU" + Utility.RESET + ":\t\tincreases hero's strength while on it\n");
+        System.out.println(Utility.YELLOW_BOLD_BRIGHT + "General Commands:");
+        System.out.println(Utility.RESET + "(to be used at any point during gameplay)" + Utility.YELLOW);
         System.out.println("Enter I to view instructions about the game.");
         System.out.println("Enter STATS to view hero and monster statistics.");
-        System.out.println("Enter INV to see the inventory full of items you can equip for each hero.");
+        System.out.println("Enter INV to see the inventory of the hero whose turn it is.");
         System.out.println("Enter MAP to display the world map.");
-        System.out.println("Enter Q to quit the game at any time." + Utility.RESET);
+        System.out.println("Enter Q to quit the game." + Utility.RESET);
         System.out.println();
         System.out.println(Utility.GREEN + "Enter X to exit Instructions" + Utility.RESET);
         Scanner scan = new Scanner(System.in);

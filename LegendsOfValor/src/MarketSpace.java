@@ -93,7 +93,18 @@ public class MarketSpace {
                         Item item = itemsForSale.get(idx);
                         if(hero.gold >= item.getPrice() && hero.level >= item.getRequiredLevel()){
                             hero.gold -= item.getPrice();
-                            hero.addItem(item);
+                            Item newItem;
+                            if(item instanceof Armor) {
+                                newItem = new Armor(item.getName(), item.getPrice(), item.getRequiredLevel(), item.getUses(), ((Armor)item).getDamageReduction());
+                            } else if(item instanceof Potion) {
+                                newItem = new Potion(item.getName(), item.getPrice(), item.getRequiredLevel(), item.getUses(), ((Potion)item).getEffectType(), ((Potion)item).getEffectAmount());
+                            } else if(item instanceof Spell) {
+                                newItem = new Spell(item.getName(), item.getPrice(), item.getRequiredLevel(), item.getUses(), ((Spell)item).getDamage(), ((Spell)item).getManaCost(), ((Spell)item).getSpellType());
+                            } else {
+                                newItem = new Weapon(item.getName(), item.getPrice(), item.getRequiredLevel(), item.getUses(), ((Weapon)item).getDamage(), ((Weapon)item).getHandsRequired());
+                            }
+                            hero.addItem(newItem);
+                            itemsForSale.remove(idx);
                             System.out.println(Utility.GREEN + hero.getName() + " bought " + item.getName() + Utility.RESET);
                         } else {
                             System.out.println(Utility.YELLOW + "Not enough gold or your level is too low to buy this item." + Utility.RESET);

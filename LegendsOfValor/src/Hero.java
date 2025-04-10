@@ -88,6 +88,18 @@ public abstract class Hero extends Characters {
         this.mp = newMP;
     }
 
+    public double getStrength() {
+        return this.strength;
+    }
+
+    public double getAgility() {
+        return this.agility;
+    }
+
+    public double getDexterity() {
+        return this.dexterity;
+    }
+
     @Override
     public abstract double attack();
 
