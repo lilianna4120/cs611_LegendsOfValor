@@ -63,7 +63,7 @@ public class MarketSpace {
                     System.out.print("Enter the index of the item to buy (or type 'exit' to cancel): ");
                     input = scanner.nextLine();
                     if(input.equalsIgnoreCase("exit")) {
-                        return;
+                        break;
                     } else if(input.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(input.equalsIgnoreCase("stats")) {
@@ -78,6 +78,9 @@ public class MarketSpace {
                     } else {
                         break;
                     }
+                }
+                if(input.equalsIgnoreCase("exit")) {
+                    break;
                 }
                 
                 try {
@@ -113,7 +116,7 @@ public class MarketSpace {
                     System.out.print("Enter the index of the item to sell (or type 'exit' to cancel): ");
                     sellInput = scanner.nextLine();
                     if(sellInput.equalsIgnoreCase("exit")) {
-                        return;
+                        break;
                     } else if(sellInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(sellInput.equalsIgnoreCase("stats")) {
@@ -128,6 +131,9 @@ public class MarketSpace {
                     } else {
                         break;
                     }
+                }
+                if(sellInput.equalsIgnoreCase("exit")) {
+                    break;
                 }
                 try {
                     int sellIdx = Integer.parseInt(sellInput);
@@ -148,10 +154,14 @@ public class MarketSpace {
                 case "3":
                 String itemInput = "";
                 while(true) {
+                    System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
+                    for(int j = 0; j < hero.getInventory().size(); j++){
+                        System.out.println(Utility.GREEN + "  [" + j + "] " + hero.getInventory().get(j).getName() + Utility.RESET);
+                    }
                     System.out.print("Enter the index of the item to repair (or type 'exit' to cancel): ");
                     itemInput = scanner.nextLine();
                     if(itemInput.equalsIgnoreCase("exit")) {
-                        return;
+                        break;
                     } else if(itemInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(itemInput.equalsIgnoreCase("stats")) {
@@ -166,6 +176,9 @@ public class MarketSpace {
                     } else {
                         break;
                     }
+                }
+                if(itemInput.equalsIgnoreCase("exit")) {
+                    break;
                 }
                 try {
                     int repIdx = Integer.parseInt(itemInput);

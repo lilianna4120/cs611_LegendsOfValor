@@ -187,5 +187,6 @@ public class MovementUtil {
             System.out.print(i + ": ");
             System.out.println(spaces.get(i));
         }
+        System.out.println("Or type 'exit' to end turn");
     }
 }

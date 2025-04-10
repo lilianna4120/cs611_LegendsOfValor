@@ -213,7 +213,10 @@ public abstract class Hero extends Characters {
                 while(true) {
                     MovementUtil.printTeleportableSpaces(availableSpaces);
                     idx = scanner.nextLine().trim();
-                    if(idx.equalsIgnoreCase("i")) {
+                    if(idx.equalsIgnoreCase("exit")) {
+                        System.out.println("Turn ending. No teleportation.");
+                        return;
+                    } else if(idx.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(idx.equalsIgnoreCase("stats")) {
                         party.displayInfo();
