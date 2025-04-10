@@ -51,6 +51,18 @@ public abstract class Monster extends Characters {
         return col;
     }
 
+    public double getDamage() {
+        return this.baseDamage;
+    }
+
+    public double getDodge() {
+        return this.dodgeChance;
+    }
+
+    public double getDefense() {
+        return this.defense;
+    }
+
     public void setPosition(int row, int col){
         this.row = row;
         this.col = col;
