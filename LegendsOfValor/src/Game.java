@@ -282,6 +282,7 @@ public class Game{
                         break;
                     }
                 }
+                break;
             case "7":
               heroCastSpell(hero);
               break;
