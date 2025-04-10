@@ -138,7 +138,7 @@ public class World{
                 System.out.println(Utility.BLACK_BACKGROUND + " " + Utility.RESET);
             }
         }
-        System.out.println(Utility.BLACK_BACKGROUND + "                                                                                        " + Utility.RESET);
+        System.out.println(Utility.BLACK_BACKGROUND + "                                                                                          " + Utility.RESET);
     }
 
     public int getWidth(){
