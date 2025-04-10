@@ -23,14 +23,14 @@ public class World{
             for(int j = 0; j < width; j++){
                 if(i == 0 || i == height - 1){
                     NexusSpace nexus = new NexusSpace(i, j);
-                    grid[i][j] = nexus;
+                    grid[i][j] = new NexusSpace(i, j);
                     map.put(i + "," + j, nexus);
+                } else{
+                    grid[i][j] = randomlyAssign(rand, i, j);
                 }
 
-                else if(j == 2 || j == 5){
+                if(j == 2 || j == 5){
                     grid[i][j] = new InaccessibleSpace(i, j);
-                }else{
-                    grid[i][j] = randomlyAssign(rand, i, j);
                 }
             }
         }
@@ -62,56 +62,83 @@ public class World{
 
     public void display(Party party){
         System.out.println();
-    System.out.println(Utility.BLUE + "World Board:" + Utility.RESET);
+        System.out.println(Utility.BLUE + "World Board:" + Utility.RESET);
 
-    // Create a horizontal separator string for the board.
-    String horizontalSeparator = "";
-    for (int j = 0; j < width; j++) {
-        horizontalSeparator += "+---";
-    }
-    horizontalSeparator += "+";
-
-
-    // Print the board row by row.
-    for (int i = 0; i < height; i++) {
-        System.out.println(horizontalSeparator);
-        // Start the row with a vertical border.
-        String rowStr = "";
-        for (int j = 0; j < width; j++) {
-            String cellSymbol = "";
-            // Check if a hero is in this cell.
-            boolean heroPresent = false;
-            for (Hero h : party.getHeroes()) {
-                if (h.getRow() == i && h.getCol() == j && h.isAlive()) {
-                    cellSymbol = h.getNickname();
-                    heroPresent = true;
-                    break;
+        System.out.println(Utility.BLACK_BACKGROUND + "                                                                                          " + Utility.RESET);
+        for(int i = 0; i < 8; i++) {
+            for(int k = 0; k < 5; k++) {
+                System.out.print(Utility.BLACK_BACKGROUND + " " + Utility.RESET);
+                for(int j = 0; j < 8; j ++) {
+                    String c = Character.toString(grid[i][j].getSymbol());
+                    String color = "";
+                    if(c.equals("N")) {
+                        System.out.print(Utility.PURPLE_BACKGROUND_BRIGHT);
+                        color = Utility.PURPLE;
+                    } 
+                    else if(c.equals("B")) {
+                        color = Utility.GREEN;
+                    }
+                    else if(c.equals("X")) {
+                        color = Utility.WHITE;
+                        System.out.print(Utility.BLACK_BACKGROUND);
+                    }
+                    else if(c.equals("K")) {
+                        color = Utility.YELLOW;
+                    }
+                    else if(c.equals("C")) {
+                        color = Utility.CYAN;
+                    }
+                    else if(c.equals("O")) {
+                        color = Utility.RED;
+                    }
+                    else if(c.equals("P")) {
+                        color = Utility.BLUE;
+                    }
+                    System.out.print(color);
+                    if(k == 0 || k == 4) {
+                        System.out.print(" " + c + " - " + c + " - " + c + " ");
+                    }
+                    else if(k == 1 || k == 3) {
+                        System.out.print(" |       | ");
+                    }
+                    else {
+                        boolean heroPresent = false;
+                        String hero = "";
+                        for (Hero h : party.getHeroes()) {
+                            if (h.getRow() == i && h.getCol() == j && h.isAlive()) {
+                                hero = h.getNickname();
+                                heroPresent = true;
+                                break;
+                            }
+                        }
+                        boolean monsterPresent = false;
+                        String monster = "";
+                        for(Monster m: party.getMonsters()){
+                            if(m.getRow() == i && m.getCol() == j && m.isAlive()){
+                                monster = m.getNickname();
+                                monsterPresent = true;
+                                break;
+                            }
+                        }
+                        if(heroPresent && monsterPresent) {
+                            System.out.print(" " + c + " " + Utility.BLACK_BOLD_BRIGHT + hero + " " + monster + color + " " + c + " ");
+                        }
+                        else if(heroPresent) {
+                            System.out.print(" " + c + "  " + Utility.BLACK_BOLD_BRIGHT + hero + color + "   " + c + " ");
+                        }
+                        else if(monsterPresent) {
+                            System.out.print(" " + c + "   " + Utility.BLACK_BOLD_BRIGHT + monster + color + "  " + c + " ");
+                        }
+                        else {
+                            System.out.print(" " + c + "       " + c + " ");
+                        }
+                    }
+                    System.out.print(Utility.RESET);
                 }
+                System.out.println(Utility.BLACK_BACKGROUND + " " + Utility.RESET);
             }
-            boolean monsterPresent = false;
-            for(Monster m: party.getMonsters()){
-                if(m.getRow() == i && m.getCol() == j && m.isAlive()){
-                    cellSymbol = m.getNickname();
-                    monsterPresent = true;
-                    break;
-                }
-            }
-            // If no hero, show the underlying cell symbol.
-            if (!heroPresent && !monsterPresent) {
-                cellSymbol = Character.toString(grid[i][j].getSymbol());
-            }
-            
-            if(j == 2 || j == 5){
-                InaccessibleSpace is = new InaccessibleSpace(i, j);
-                cellSymbol = Character.toString(is.getSymbol());
-            }
-            // Build the cell string.
-            rowStr += "| " + cellSymbol + " ";
         }
-        rowStr += "|";
-        System.out.println(rowStr);
-    }
-    System.out.println(horizontalSeparator);
+        System.out.println(Utility.BLACK_BACKGROUND + "                                                                                        " + Utility.RESET);
     }
 
     public int getWidth(){
