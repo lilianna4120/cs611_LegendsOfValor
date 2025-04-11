@@ -1,13 +1,16 @@
 public class Potion extends Item {
+    // private variables for potion class
     private double effectAmount;
     private String effectType;
 
+    // public constructor for potion class
     public Potion(String name, int price, int requiredLevel, int uses, String effectType, double effectAmount) {
         super(name, price, requiredLevel, uses);
         this.effectType = effectType;
         this.effectAmount = effectAmount;
     }
 
+    // accessor methods of option class
     public double getEffectAmount() {
         return effectAmount;
     }
@@ -16,6 +19,7 @@ public class Potion extends Item {
         return effectType;
     }
 
+    // display information about potion item
     @Override
     public void display() {
         System.out.println("----- Potion Details -----");

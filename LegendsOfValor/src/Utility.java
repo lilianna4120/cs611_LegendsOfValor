@@ -1,4 +1,5 @@
 public class Utility {
+    // to add color in terminal
     public static final String RESET  = "\u001B[0m";
     public static final String RED    = "\u001B[31m";
     public static final String GREEN  = "\u001B[32m";
@@ -27,6 +28,7 @@ public class Utility {
     public static final String WHITE_BACKGROUND = "\u001B[47m";
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m";
 
+    // for mp and hp status bar
     public static String createBar(double current, double max, int length, String color) {
         int filled = (int) ((current / max) * length);
         if (filled > length) {

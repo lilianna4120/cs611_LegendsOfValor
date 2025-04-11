@@ -1,10 +1,12 @@
 public abstract class Item{
+    // protected variables for item class
     protected String name;
     protected int price;
     protected int requiredLevel;
     protected int uses;
     protected int maxUses;
 
+    // public constructor for item class
     public Item(String name, int price, int requiredLevel, int uses){
         this.name = name;
         this.price = price;
@@ -13,6 +15,7 @@ public abstract class Item{
         this.maxUses = uses;
     }
 
+    // accessor methods of item class
     public String getName(){
         return name;
     }

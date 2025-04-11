@@ -1,4 +1,5 @@
 class Warrior extends Hero {
+    // public constructor for warrior class
     public Warrior(String name, int mp, int strength, int agility, int dexterity, int gold, int experience) {
         super(name);
         this.mp = mp;
@@ -10,6 +11,7 @@ class Warrior extends Hero {
         this.hp = getMaxHP();
     }
     
+    // when warrior attacks
     @Override
     public double attack() {
         double weaponDamage;
@@ -20,7 +22,7 @@ class Warrior extends Hero {
         }
 
         double bonus = 0;
-        // for one-handed weapons, if used with both hands  can add bonus damage.
+        // for one-handed weapons, if used with both hands can add bonus damage.
         if (equippedWeapon != null && equippedWeapon.getHandsRequired() == 1) {
             bonus = weaponDamage*0.1; // add a bonus
         }
@@ -30,6 +32,7 @@ class Warrior extends Hero {
         return totalAttack*0.05;
     }
 
+    // warriors are favored on strength and agaility
     public void levelUp() {
         level++;
         if(hp < getMaxHP()){
@@ -38,11 +41,11 @@ class Warrior extends Hero {
         if(mp < getMaxMP()){
             mp = getMaxMP();
         }
-        strength *= 1.05;
-        strength *= 1.05;
+
+        strength *= 1.1;
         dexterity *= 1.05;
-        agility *= 1.05;
-        agility *= 1.05;
+        agility *= 1.1;
+
         System.out.println(name + " leveled up to " + level + "!");
     }
 }

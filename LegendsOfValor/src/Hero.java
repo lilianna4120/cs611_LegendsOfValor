@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public abstract class Hero extends Characters {
+    // protected variables for hero class
     protected double mp;
     protected double strength;
     protected double dexterity;
@@ -17,6 +18,7 @@ public abstract class Hero extends Characters {
     protected int col;
     protected String nickname;
 
+    // public constructor for hero class
     public Hero(String name) {
         super(name, 1);
         this.experience = 0;
@@ -25,11 +27,13 @@ public abstract class Hero extends Characters {
         inventory = new ArrayList<>();
     }
 
+    // abstract class; different by heroes
+    public abstract void levelUp();
+
+    // accessor methods of hero class
     public double getMaxMP() {
         return level * 100;
     }
-
-    public abstract void levelUp();
 
     public int getRow(){
         return row;
@@ -39,54 +43,24 @@ public abstract class Hero extends Characters {
         return col;
     }
 
-    public void setPosition(int row, int col){
-        this.row = row;
-        this.col = col;
-
+    public int getGold() {
+        return this.gold;
     }
 
     public int[] getPosition() {
         return new int[] {this.row, this.col};
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
-    public int getGold() {
-        return this.gold;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
     public int getExperience() {
         return this.experience;
-    }
-
-    public void assignNickname(String nickname){
-        this.nickname = nickname;
     }
 
     public String getNickname(){
         return nickname;
     }
 
-    public double getHP(){
-        return hp;
-    }
-
     public double getMP(){
         return mp;
-    }
-
-    public void setHP(Double newHP){
-        this.hp = newHP;
-    }
-
-    public void setMP(Double newMP){
-        this.mp = newMP;
     }
 
     public double getStrength() {
@@ -101,9 +75,46 @@ public abstract class Hero extends Characters {
         return this.dexterity;
     }
 
+    public List<Item> getInventory(){
+        return inventory;
+    }
+
+
+    // mutator methods of hero class
+    public void setPosition(int row, int col){
+        this.row = row;
+        this.col = col;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void setHP(Double newHP){
+        this.hp = newHP;
+    }
+
+    public void setMP(Double newMP){
+        this.mp = newMP;
+    }
+
+    public void addItem(Item item){
+        inventory.add(item);
+    }
+
+    // when heroes attack
     @Override
     public abstract double attack();
 
+    // when hero defeats monster
     public void gain(Monster m) {
         this.setGold(this.getGold() + (m.getLevel() * 500)/3);
         this.setExperience(this.getExperience() + (2*m.getLevel()));
@@ -112,6 +123,7 @@ public abstract class Hero extends Characters {
         }
     }
 
+    // display hero information
     @Override
     public void displayInfo() {
         System.out.println();
@@ -137,14 +149,7 @@ public abstract class Hero extends Characters {
         System.out.println("---------------------------");
     }
 
-    public void addItem(Item item){
-        inventory.add(item);
-    }
-
-    public List<Item> getInventory(){
-        return inventory;
-    }
-
+    // print inventory items that hero have
     public void printInventory() {
         System.out.println(Utility.YELLOW + this.getNickname() + "'s Inventory: " + Utility.RESET);
         for(int j = 0; j < this.inventory.size(); j++){
@@ -164,6 +169,7 @@ public abstract class Hero extends Characters {
         }
     }
 
+    // when hero wants to equip item
     public void equipItem(Item item){        
         if(item instanceof Weapon){
             equippedWeapon = (Weapon)item;
@@ -176,6 +182,7 @@ public abstract class Hero extends Characters {
         }
     }
 
+    // when hero wants to use potion
     public void usePotion(Potion potion) {
         String effect = potion.getEffectType().toLowerCase();
         double amount = potion.getEffectAmount();
@@ -211,6 +218,7 @@ public abstract class Hero extends Characters {
         }
     }
 
+    // when hero wants to teleport
     public void teleport(Hero hero, Hero target, World world, Party party){
         HashMap<Integer, String> availableSpaces = new HashMap<Integer, String>();
         availableSpaces = MovementUtil.getTelportableSpaces(target, world, party);
@@ -266,6 +274,7 @@ public abstract class Hero extends Characters {
         
     }
 
+    // when hero wants to recall
     public void recall(int nexusRow){
         String heroIntStr = nickname.substring(1);
         int heroInt = Integer. parseInt(heroIntStr);
@@ -281,6 +290,7 @@ public abstract class Hero extends Characters {
         System.out.println(name + " recalled to Nexus at (" + getRow() + "," + getCol() + ")");
     }
 
+    // bonus differs by space
     public void applyBonus(String stat, int bonus){
         if(stat == "dexterity"){
             this.dexterity += bonus;
@@ -289,8 +299,10 @@ public abstract class Hero extends Characters {
         } else if(stat == "strength"){
             this.strength += bonus;
         }
+        System.out.println(name + "'s " + stat + " increased by " + bonus + " while the hero is in that space.");
     }
 
+    // return the lane that hero is in
     public int getLane(){
         int lane = 0;
         if(this.col == 0 || this.col == 1){
@@ -303,6 +315,7 @@ public abstract class Hero extends Characters {
         return lane;
     }
 
+    // at the end of every round every hero that is still alive regains 10% of their hp and 10% of their mana
     public void regains(){
         double newHP = hp * 1.1;
         double newMP = mp * 1.1;
@@ -311,6 +324,7 @@ public abstract class Hero extends Characters {
         System.out.println(Utility.BLUE + nickname + " regains to " + hp + " HP and " + mp + " MP !" + Utility.RESET);
     }
 
+    // when a hero dies, they respawn in their specific Nexus space at the start of the next round
     public void respawn(){
         this.hp = getMaxHP() / 2.0;
         this.mp = getMaxMP() / 2.0;

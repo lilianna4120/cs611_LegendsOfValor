@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class SpellLoader extends Loader<Spell> {
+    // overriden method to parse when reading spell files
     @Override
     protected Spell parseLine(String line) {
         return parseLine(line, null);
@@ -20,6 +21,7 @@ public class SpellLoader extends Loader<Spell> {
         return null;
     }
 
+    // to load spell items
     public static List<Spell> loadSpellItems(String filename, String spellType) {
         return new SpellLoader().loadItemsFromFile(filename, spellType);
     }

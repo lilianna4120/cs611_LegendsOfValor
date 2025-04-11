@@ -3,30 +3,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game{
+    // private variables for game class
     private World world;
     private Party party;
     private Scanner scanner;
     private int round;
     private int monstersNum;
 
+    // constructor for game class
     public Game(){
         scanner = new Scanner(System.in);
+        // world size is fixed to 8x8
         world = new World(8, 8);
         setupParty();
+        // since no monster has been crated; keep track to make nickname(eg. 'M1' or 'M4')
         monstersNum = 0;
         spawnMonsters();
+        // to spawn new monsters after every few round
         round = 0;
     }   
 
     public void start(){
         printInstructions();
-
         boolean quit = false;
 
         while(!quit){
             round++;
             System.out.println(Utility.YELLOW + "\nRound " + round + Utility.RESET);
 
+            // heroes turn (all of them)
             for(Hero h: party.getHeroes()){
                 if(h.isAlive()){
                     world.display(party);
@@ -34,22 +39,26 @@ public class Game{
                 }
             }
 
+            // to check if hero won (checkWinCondition is to check both heroes and monsters win condition but since it is after heroes' turn)
             if(checkWinCondition()){
                 quit = true;
                 break;
             }
 
+            // monsters turn (all of them)
             for(Monster m: party.getMonsters()){
                 if(m.isAlive()){
                     processMonsterTurn(m);
                 }
             }
 
+            // to check if monster won
             if(checkWinCondition()){
                 quit = true;
                 break;
             }
 
+            // spawn new mosnters every 8 rounds
             if(round%8 == 0){
                 spawnMonsters();
             }
@@ -64,6 +73,7 @@ public class Game{
                 }
             }
 
+            // if any of the monsters are defeated, remove that monster from the party
             ArrayList<Monster> killedMonsters = new ArrayList<>();
             for(Monster m: party.getMonsters()) {
                 if(!m.isAlive()) {
@@ -75,6 +85,7 @@ public class Game{
             }
             for(Monster m: killedMonsters) {
                 party.removeMonster(m);
+                System.out.println(Utility.PURPLE + m.getNickname() + " has been defeated this round ! " + Utility.RESET);
             }
         }
 
@@ -88,6 +99,7 @@ public class Game{
         HeroLoader heroLoader = new HeroLoader();
         List<Hero> allHeroes = heroLoader.loadAllHeroes();
     
+        // to let the user/player choose their heroes
         System.out.println(Utility.YELLOW + "Available Heroes: " + Utility.RESET);
         for (int i = 0; i < allHeroes.size(); i++) {
             Hero h = allHeroes.get(i);
@@ -129,6 +141,7 @@ public class Game{
                 break;
             }
 
+            // add heroes to the party
             chosenHeroes.add(choice);
             Hero chosenHero;
             Hero template = allHeroes.get(choice);
@@ -150,8 +163,9 @@ public class Game{
                 col = 6;
             }
 
+            // set hero's location in the world map
             chosenHero.setPosition(world.getHeight()-1, col);
-            chosenHero.assignNickname(heroNickname);
+            chosenHero.setNickname(heroNickname);
             party.addHero(chosenHero);
             System.out.println(Utility.BLUE + chosenHero.getNickname() + " assigned ("  + (world.getHeight()-1) + "," + col + ")" + Utility.RESET);
             heroCount++;  
@@ -161,6 +175,7 @@ public class Game{
     }
 
     public void spawnMonsters(){
+        // monsters have a level equal to highest level among the 3 heroes
         int maxHeroLevel = 0;
         for(Hero h: party.getHeroes()){
             int level = h.getLevel();
@@ -169,6 +184,7 @@ public class Game{
             }
         }
 
+        // add monsters to party
         List<Monster> monstersList = MonsterLoader.generateThreeMonsters(maxHeroLevel);
         for(int i = 0; i < 3; i++) {
             Monster chosenMonster;
@@ -182,15 +198,16 @@ public class Game{
             }
             monstersNum ++;
             String n = "M" + monstersNum;
-            chosenMonster.assignNickname(n);
+            chosenMonster.setNickname(n);(n);
             chosenMonster.setPosition(0, i*3 + 1);
             party.addMonster(chosenMonster);
         }
     }
 
     private void processHeroTurn(Hero hero){
-        if(hero.getRow() == 7){
+        if(hero.getRow() == 7){ // when in hero's Nexus space; since board is fixed we know row 7 is hero's Nexus space
             while(true) {
+                // heroes can enter market when in their Nexus sapce
                 System.out.print(hero.getNickname() + " is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) ");
                 String response = scanner.nextLine();
                 if(response.equalsIgnoreCase("y")){
@@ -202,6 +219,7 @@ public class Game{
                 } else if(response.equalsIgnoreCase("n")) {
                     System.out.println("Not entering market.");
                     break;
+                // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                 } else if(response.equalsIgnoreCase("i")) {
                     Game.printInstructions();
                 } else if(response.equalsIgnoreCase("stats")) {
@@ -221,10 +239,12 @@ public class Game{
         }
         String action = "";
         while(true) {
+            // make action
             System.out.println("\n" + hero.getNickname() + "'s turn. Choose an action:");
             System.out.println("1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit ");
             action = scanner.nextLine();
         
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             if(action.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(action.equalsIgnoreCase("stats")) {
@@ -242,25 +262,26 @@ public class Game{
         }
 
         switch(action){
-            case "1":
+            case "1": // move
                 heroMove(hero);
                 break;
-            case "2":
+            case "2": // attack
                 heroAttack(hero);
                 break;
-            case "3":
+            case "3": // use potion
                 heroUsePotion(hero);
                 break;
-            case "4":
+            case "4": // teleport
                 heroTeleport(hero);
                 break;
-            case "5":
+            case "5": // recall
                 hero.recall(world.getHeight()-1);
                 break;
-            case "6":
+            case "6": // remove obstacle
                 while(true) {
                     System.out.print("Enter direction (W/A/S/D) to remove obstacle: ");
                     String direction = scanner.nextLine().trim();
+                    // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                     if(direction.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(direction.equalsIgnoreCase("stats")) {
@@ -281,10 +302,10 @@ public class Game{
                     }
                 }
                 break;
-            case "7":
+            case "7": // cast spell
               heroCastSpell(hero);
               break;
-            case "8":
+            case "8": // change weapon or armor
               heroChangeWeaponOrArmor(hero);
               break;
             default:
@@ -298,6 +319,7 @@ public class Game{
         while(true) {
             System.out.print("Enter W/A/S/D to move: "); 
             dir = scanner.nextLine().trim().toLowerCase();
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             if(dir.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(dir.equalsIgnoreCase("stats")) {
@@ -314,20 +336,21 @@ public class Game{
             }
         }
         
-        // int r = hero.getRow();
-        // int c = hero.getCol();
+        // move the hero or skip the turn if the hero can't move there
         if(!MovementUtil.moveHero(hero, dir, party, world)){
             System.out.println(Utility.YELLOW + "You can't move there ! Skipping turn." + Utility.RESET);
         }
     }
 
     private void heroAttack(Hero hero){
+        // get the monster near hero to attack
         Monster target = getMonsterInRange(hero);
         if(target == null){
             System.out.println("There's no monster in attack range !");
             return;
         }
 
+        // if the monster is near the hero; attack
         double damage = hero.attack();
         System.out.println(hero.getNickname() + " attacks " + target.getNickname() + " for " + damage + " damage.");
         target.takeDamage(damage);
@@ -337,10 +360,11 @@ public class Game{
     }
 
     private void heroUsePotion(Hero hero){ 
+        // let player choose which potion to use in hero's inventory
         ArrayList<Item> potions = new ArrayList<>();
         for (Item item : hero.getInventory()) {
             if (item instanceof Potion && item.isUsable()) {
-                System.out.print("[" + potions.size() + "]");
+                System.out.println("[" + potions.size() + "]");
                 item.display();
                 potions.add(item);
             }
@@ -358,6 +382,7 @@ public class Game{
             if(input.equalsIgnoreCase("exit")) {
                 System.out.println("You've opted to exit. Turn is over");
                 break;
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             } else if(input.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(input.equalsIgnoreCase("stats")) {
@@ -371,6 +396,7 @@ public class Game{
                 System.exit(0);
             } else {
                 try {
+                    // use the potion
                     int idx = Integer.parseInt(input);
                     if(idx >= 0 && idx < potions.size()){
                         hero.usePotion((Potion) potions.get(idx));
@@ -387,18 +413,18 @@ public class Game{
     }
 
     private void heroCastSpell(Hero hero){ 
-        // TODO: 
-        // add spell type based damage
+        // get the monster near hero to cast spell
         Monster monster = getMonsterInRange(hero);
         if(monster == null){
             System.out.println("There's no monster in attack range !");
             return;
         }
 
+        // let player choose which spell to cast from the hero's inventory
         ArrayList<Item> spells = new ArrayList<>();
         for (Item item : hero.getInventory()) {
             if (item instanceof Spell && item.isUsable()) {
-                System.out.print("[" + spells.size() + "]");
+                System.out.println("[" + spells.size() + "]");
                 item.display();
                 spells.add(item);
             }
@@ -415,6 +441,7 @@ public class Game{
             if(input.equalsIgnoreCase("exit")) {
                 System.out.println("You've opted to exit. Turn is over");
                 break;
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             } else if(input.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(input.equalsIgnoreCase("stats")) {
@@ -428,6 +455,7 @@ public class Game{
                 System.exit(0);
             } else {
                 try {
+                    // cast the spell to the monster
                     int idx = Integer.parseInt(input);
                     if(idx >= 0 && idx < spells.size()){
                         Spell spell = (Spell)spells.get(idx);
@@ -466,10 +494,11 @@ public class Game{
     }
 
     private void heroChangeWeaponOrArmor(Hero hero){ 
+        // let the player choose which weapon or armor to wear/use from hero's inventory
         ArrayList<Item> items = new ArrayList<>();
         for (Item item : hero.getInventory()) {
             if ((item instanceof Armor || item instanceof Weapon) && item.isUsable()) {
-                System.out.print("[" + items.size() + "]");
+                System.out.println("[" + items.size() + "]");
                 item.display();
                 items.add(item);
             }
@@ -486,6 +515,7 @@ public class Game{
             if(input.equalsIgnoreCase("exit")) {
                 System.out.println("You've opted to exit. Turn is over");
                 break;
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             } else if(input.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(input.equalsIgnoreCase("stats")) {
@@ -499,6 +529,7 @@ public class Game{
                 System.exit(0);
             } else {
                 try {
+                    // equip the item
                     int idx = Integer.parseInt(input);
                     if(idx >= 0 && idx < items.size()){
                         hero.equipItem(items.get(idx));
@@ -515,6 +546,8 @@ public class Game{
     }
 
     private Monster getMonsterInRange(Hero hero){
+        // check what monster is near the hero
+        // gets the closest one
         for(Monster m: party.getMonsters()){
             if(m.isAlive() && isInRange(hero, m)){
                 return m;
@@ -524,6 +557,7 @@ public class Game{
     }
 
     private boolean isInRange(Hero hero, Monster monster){
+        // return true if the monster is in one of the 8 adjacent cell from the hero
         int row = Math.abs(hero.getRow() - monster.getRow());
         int col = Math.abs(hero.getCol() - monster.getCol());
 
@@ -533,9 +567,11 @@ public class Game{
     private void heroTeleport(Hero hero) {
         Hero target;
         while(true) {
+            // let player choose where to go
             System.out.print("Enter target hero to teleport adjacent to: ");
             String targetNickname = scanner.nextLine().trim().toUpperCase();
             target = party.getHerobyNickname(targetNickname);
+            // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
             if(targetNickname.equalsIgnoreCase("i")) {
                 Game.printInstructions();
             } else if(targetNickname.equalsIgnoreCase("stats")) {
@@ -555,12 +591,15 @@ public class Game{
                 break;
             }
         }
+        // teleport the hero
         hero.teleport(hero, target, world, party);
     }
 
     private void processMonsterTurn(Monster monster){
+        // get the hero near the monster
         Hero target = getHeroInRange(monster);
         if (target != null) {
+            // if there is a hero, attack
             double damage = monster.attack();
             System.out.println(monster.getNickname() + " attacks " + target.getNickname() + " for " + damage + " damage.");
             target.takeDamage(damage);
@@ -569,17 +608,20 @@ public class Game{
                 party.addDeadHero(target);
             }
         } else {
+            // or move if there is no hero around monster
             boolean moved = MovementUtil.moveMonster(monster, "S", world);
             if (!moved) {
+                // cannot move if that space is inaccessible
                 System.out.println(monster.getNickname() + " cannot move south.");
             }
         }
     }
 
     private Hero getHeroInRange(Monster monster) {
+        // check what hero is near the monster
+        // gets the closest one
         for (Hero hero : party.getHeroes()) {
-            if (hero.isAlive() && Math.abs(hero.getRow() - monster.getRow()) <= 1 &&
-                Math.abs(hero.getCol() - monster.getCol()) <= 1) {
+            if (hero.isAlive() && isInRange(hero, monster)) {
                 return hero;
             }
         }
@@ -587,24 +629,21 @@ public class Game{
     }
 
     private boolean checkWinCondition() {
-        // Check heroes:
+        // Check heroes
         for (Hero hero : party.getHeroes()) {
             if (hero.getRow() == 0) {
                 System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win !" + Utility.RESET);
                 return true;
             }
         }
-        // Check monsters:
+        // Check monsters
         for (Monster monster : party.getMonsters()) {
             if (monster.getRow() == world.getHeight() - 1) {
                 System.out.println(Utility.RED + monster.getNickname() + " has reached the Heroes' Nexus! Heroes lose ..." + Utility.RESET);
                 return true;
             }
         }
-        // if(party.getDeadHeros().size() == 3){
-        //     System.out.println(Utility.YELLOW + "All the heroes are dead. Heroes lose ... " + Utility.RESET);
-        //     return true;
-        // }
+        
         return false;
     }
     
@@ -644,25 +683,25 @@ public class Game{
         }
     }
 
-    private void displayScoreSummary(){
-        System.out.println("\n" + Utility.CYAN + "Game Summary" + Utility.RESET);
+    // private void displayScoreSummary(){
+    //     System.out.println("\n" + Utility.CYAN + "Game Summary" + Utility.RESET);
 
-        int totalGold = 0;
-        int totalExp = 0;
-        int maxLevel = 0;
+    //     int totalGold = 0;
+    //     int totalExp = 0;
+    //     int maxLevel = 0;
 
-        for(Hero hero: party.getHeroes()){
-            totalGold = hero.gold;
-            totalExp = hero.experience;
-            if(hero.level > maxLevel){
-                maxLevel = hero.level;
-            }
+    //     for(Hero hero: party.getHeroes()){
+    //         totalGold = hero.gold;
+    //         totalExp = hero.experience;
+    //         if(hero.level > maxLevel){
+    //             maxLevel = hero.level;
+    //         }
 
-            System.out.println(Utility.YELLOW + hero.name + Utility.RESET + " | Level: " + hero.level + " | EXP: " + hero.experience + " | Gold: " + hero.gold);
-        }
+    //         System.out.println(Utility.YELLOW + hero.name + Utility.RESET + " | Level: " + hero.level + " | EXP: " + hero.experience + " | Gold: " + hero.gold);
+    //     }
 
-        System.out.println("\n" + Utility.GREEN + "Total Gold: " + totalGold + Utility.RESET);
-        System.out.println(Utility.GREEN + "Total EXP: " + totalExp + Utility.RESET);
-        System.out.println(Utility.GREEN + "Highest Level Reached: " + maxLevel + Utility.RESET);
-    }
+    //     System.out.println("\n" + Utility.GREEN + "Total Gold: " + totalGold + Utility.RESET);
+    //     System.out.println(Utility.GREEN + "Total EXP: " + totalExp + Utility.RESET);
+    //     System.out.println(Utility.GREEN + "Highest Level Reached: " + maxLevel + Utility.RESET);
+    // }
 }
