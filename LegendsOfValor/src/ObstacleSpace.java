@@ -32,6 +32,12 @@ public class ObstacleSpace extends Space {
         cleared = true;
         System.out.println("The obstacle at (" + row + "," + col + ") has been removed and is now a plain space.");
     }
+
+    // hero can't leave obstacle space since it can't be entered
+    @Override
+    public void onExit(Hero hero){
+        System.out.println(Utility.CYAN + hero.getNickname() + " leaves the obstacle space." + Utility.RESET);
+    }
     
     // represented as O if there is an obstacle
     public char getSymbol() {

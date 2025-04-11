@@ -290,7 +290,7 @@ public abstract class Hero extends Characters {
         System.out.println(name + " recalled to Nexus at (" + getRow() + "," + getCol() + ")");
     }
 
-    // bonus differs by space
+    // added bonus differs by space
     public void applyBonus(String stat, int bonus){
         if(stat == "dexterity"){
             this.dexterity += bonus;
@@ -299,7 +299,19 @@ public abstract class Hero extends Characters {
         } else if(stat == "strength"){
             this.strength += bonus;
         }
-        System.out.println(name + "'s " + stat + " increased by " + bonus + " while the hero is in that space.");
+        System.out.println(nickname + "'s " + stat + " increased by " + bonus + " while the hero is in that space.");
+    }
+
+    // removed bonus differs by space
+    public void removeBonus(String stat, int bonus){
+        if(stat == "dexterity"){
+            this.dexterity -= bonus;
+        }else if(stat == "agility"){
+            this.agility -= bonus;
+        } else if(stat == "strength"){
+            this.strength -= bonus;
+        }
+        System.out.println(nickname + "'s " + stat + " decreased by " + bonus + " since the hero left that space.");
     }
 
     // return the lane that hero is in
