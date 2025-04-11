@@ -113,6 +113,7 @@ public class Game{
         HeroLoader heroLoader = new HeroLoader();
         List<Hero> allHeroes = heroLoader.loadAllHeroes();
     
+        System.out.println(Utility.BLUE + "Welcome to Legends of Valor Game ! " + Utility.RESET);
         // to let the user/player choose their heroes
         System.out.println(Utility.YELLOW + "Available Heroes: " + Utility.RESET);
         for (int i = 0; i < allHeroes.size(); i++) {
