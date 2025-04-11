@@ -1,6 +1,6 @@
-# CS611-Assignment < 4 >
+# CS611-Assignment < 5 >
 
-## Monsters and Heroes
+## Legends of Valor
 
 ---
 
