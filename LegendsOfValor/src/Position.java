@@ -1,3 +1,9 @@
+/*
+ * Position.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Position of an object in the World.
+ */
 public class Position{
     // private variables for position class
     private int row;

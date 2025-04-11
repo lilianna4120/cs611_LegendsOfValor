@@ -1,3 +1,10 @@
+/*
+ * PlainSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a PlainSpace within the World of Legends of Valor.
+ * Extends Space and overrides various methods.
+ */
 public class PlainSpace extends Space {
 
     // public constructor for PlainSlace class

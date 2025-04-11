@@ -1,3 +1,10 @@
+/*
+ * PotionLoader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that loads in a list of Potion objects from passed in files.
+ * Extends Loader and replaces the generic type with Potion.
+ */
 import java.util.List;
 
 public class PotionLoader extends Loader<Potion> {

@@ -1,3 +1,10 @@
+/*
+ * MonsterLoader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that loads in a list of Monster objects from specified files.
+ * Extends Loader and replaces the generic type with Monster.
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

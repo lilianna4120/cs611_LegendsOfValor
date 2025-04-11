@@ -1,4 +1,10 @@
-
+/*
+ * KoulouSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a KoulouSpace within the World of Legends of Valor.
+ * Extends Space and overrides various methods.
+ */
 public class KoulouSpace extends Space {
     // private varaible for KoulouSpace class
     private int bonus = 10;

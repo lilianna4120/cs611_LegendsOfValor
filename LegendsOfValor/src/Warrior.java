@@ -1,3 +1,10 @@
+/*
+ * Warrior.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Warrior, where each Warrior has a variety of important attributes.
+ * Extends Hero and overrides attack() method.
+ */
 class Warrior extends Hero {
     // public constructor for warrior class
     public Warrior(String name, int mp, int strength, int agility, int dexterity, int gold, int experience) {

@@ -1,3 +1,9 @@
+/*
+ * Item.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that represents an Item which has various attributes and accessors. 
+ */
 public abstract class Item{
     // protected variables for item class
     protected String name;

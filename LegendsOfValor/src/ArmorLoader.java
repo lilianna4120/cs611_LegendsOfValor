@@ -1,3 +1,10 @@
+/*
+ * ArmorLoader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that loads in a list of Armor objects from passed in files.
+ * Extends Loader and replaces the generic type with Armor.
+ */
 import java.util.List;
 
 public class ArmorLoader extends Loader<Armor> {

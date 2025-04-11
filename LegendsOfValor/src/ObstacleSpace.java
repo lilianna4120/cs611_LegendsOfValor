@@ -1,3 +1,10 @@
+/*
+ * ObstacleSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents an ObstacleSpace within the World of Legends of Valor.
+ * Extends Space and overrides various methods.
+ */
 public class ObstacleSpace extends Space {
     // private variable for obstacle space class
     private boolean cleared = false;

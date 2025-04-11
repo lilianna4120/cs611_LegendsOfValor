@@ -1,3 +1,9 @@
+/*
+ * MovementUtil.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that contains methods for various types of movement based moves a character can make.
+ */
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,7 +75,7 @@ public class MovementUtil {
         return true;
     }
     
-    public static boolean moveMonster(Monster monster, String direction, World world) {
+    public static boolean moveMonster(Monster monster, String direction, Party party, World world) {
         int currentRow = monster.getRow();
         int currentCol = monster.getCol();
         int newRow = currentRow;
@@ -99,6 +105,10 @@ public class MovementUtil {
         }
         // check if the space is accessible
         if (!world.getSpace(newRow, newCol).isAccessible()) {
+            return false;
+        }
+        // check if it is occupied by other monsters
+        if(!world.getSpace(newRow, newCol).isNotOccupiedbyMonster(party.getMonsters())){
             return false;
         }
         
