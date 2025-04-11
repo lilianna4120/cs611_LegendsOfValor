@@ -15,6 +15,7 @@ public abstract class Space {
     public abstract boolean isAccessible();
     public abstract void display();
     public abstract void onEnter(Hero hero);
+    public abstract void onExit(Hero hero);
     public abstract char getSymbol();
 
     // to check if the space is occupied by a hero so other heroes can't move there

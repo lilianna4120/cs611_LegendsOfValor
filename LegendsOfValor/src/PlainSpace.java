@@ -16,6 +16,11 @@ public class PlainSpace extends Space {
     public void onEnter(Hero hero) {
         // Plain space has no special effect.
     }
+
+    // nothing happens if a character exits plain space
+    @Override
+    public void onExit(Hero hero){
+    }
     
     // display it on the world map
     @Override

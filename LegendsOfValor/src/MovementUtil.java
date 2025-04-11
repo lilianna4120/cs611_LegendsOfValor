@@ -59,7 +59,11 @@ public class MovementUtil {
             
         }
         
+        // hero exits the space - remove the bonus
+        world.getSpace(newRow, newCol).onExit(hero);
+        // move to the next position
         hero.setPosition(newRow, newCol);
+        // hero enters the space - add the bonus
         world.getSpace(newRow, newCol).onEnter(hero);
         System.out.println(hero.getNickname() + " moved to (" + newRow + ", " + newCol + ").");
         return true;

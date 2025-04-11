@@ -18,6 +18,12 @@ public class NexusSpace extends Space {
             System.exit(0);
         }
     }
+
+    // if the hero leaves the nexus space
+    @Override
+    public void onExit(Hero hero){  
+        System.out.println(Utility.CYAN + hero.getNickname() + " leaves the nexus space." + Utility.RESET);
+    }
     
     // display it on the map
     @Override

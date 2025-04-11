@@ -15,6 +15,12 @@ public class InaccessibleSpace extends Space {
     public void onEnter(Hero hero){
         System.out.println("This space is inaccessible !");
     }
+
+    // hero can't enter so it can exit
+    @Override
+    public void onExit(Hero hero){
+        System.out.println("Hero is leaving the inaccessible space ..?");
+    }
     
     // display it on the world map
     @Override
