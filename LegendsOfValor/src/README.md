@@ -5,9 +5,8 @@
 ---
 
 ### Student Information
-- **Name:**  Lily Jihyun Son
-- **Email:**  lilyson@bu.edu
-- **Student ID:**  U37941259
+- **Name:**  Lily Jihyun Son, Grace Elias
+- **Email:**  lilyson@bu.edu; gelias@bu.edu
 
 ---
 
@@ -15,23 +14,20 @@
 
 List of source code files included in this project:
 
-Main.java                - The entry point of the program.
-Game.java                – Main class (entry point), handles game loop and user input. It also sets up the party of hereoes, print instructions, and display summary when the game ends.
-World.java               – Represents the game world (grid of tiles).
-Tile.java and subclasses (CommonTile.java, MarketTile.java, InaccessibleTile.java) – Represents a space in the grid .
-Party.java               – Represents the group of heroes.
-Characters.java          - Contains the abstract Characters class which provides the base functionality for all game characters. Attack and displayInfo function is abstract class since they are different by monsters and heroes.
-Hero.java and subclasses – Base class for heroes with derived classes: Warrior, Sorcerer, Paladin. Contains the abstract Hero class with methods for leveling up, displaying information, inventory management, and item usage. Attack method is overridden in subclasses.
+Main.java                   - The entry point of the program.
+Game.java                   – Main class (entry point), handles game loop and user input. It also sets up the party of hereoes, print instructions, and display summary when the game ends. Class that contains all necessary logic and methods to play a Game of Legends of Valor.
+World.java                  – Represents the game world (grid of tiles).
+Party.java                  – Represents the group of heroes and monsters.
+Characters.java             - Contains the abstract Characters class which provides the base functionality for all game characters(heroes and monsters). Attack and displayInfo function is abstract class since they are different by monsters and heroes.
+Hero.java and subclasses    – Base class for heroes with derived classes: Warrior, Sorcerer, Paladin. Contains the abstract Hero class with methods for leveling up, displaying information, inventory management, and item usage. Attack method is overridden in subclasses.
 Monster.java and subclasses – Base class for monsters with derived classes: Dragon, Exoskeleton, Spirit. Contains the abstract Monster class with methods for attacking, taking damage, and displaying information. 
-Space.java               - Contains the abstract Space class with definitions for location, accessibility, event handling, and display methods.
-MarketSpace.java         – Represents a market; handles buying, selling, repairing items.
-Item.java and subclasses (Weapon.java, Armor.java, Spell.java, Potion.java) – Contains the abstract Item class that provides the base properties and methods for game items.
-Battle.java              – Handles battle logic between heroes and monsters.
-Loader.java              - An abstract generic class that provides file-loading and parsing functionalities.
-ItemLoader.java          - Contains static methods to load different item types.
-Pair.java                - Represents a combat encounter between a hero and a monster.
-Dice.java                - Provides a random chance mechanism useful for various game events.
-Utility.java             -  Provides helper methods for creating progress bars and managing colored output for enhanced user interface displays.
+Space.java and subclasses   - Contains the abstract Space class with definitions for location, accessibility, event handling, and display methods. (BushSpace.java, CaveSpace.java, InaccessibleSpace.java, KoulouSpace.java, NexusSpace.java, ObstacleSpace.java, and PlainSpace.java)
+Space.java                  - Contains the abstract Space class with definitions for location, accessibility, event handling, and display methods.
+Item.java and subclasses    – Contains the abstract Item class that provides the base properties and methods for game items. (Weapon.java, Armor.java, Spell.java, Potion.java)
+Loader.java and subclasses  - An abstract generic class that provides file-loading and parsing functionalities. (ArmorLoader.java, HeroLoader.java, MonsterLoader.java, PotionLoader.java, SpellLoader.java, and WeaponLoader.java)
+Utility.java                -  Provides helper methods for creating progress bars and managing colored output for enhanced user interface displays.
+MovementUtil.java           -  contains methods for types of movements of heroes and monsters can make
+Position.java               -  represents a position of an object in the World.
 
 ---
 
@@ -40,12 +36,11 @@ Utility.java             -  Provides helper methods for creating progress bars a
 This project showcases object-oriented programming concepts such as inheritance and polymorphism.  
 Key design decisions and optimizations include:
 
-- Inheritance & Code Reusability: Common functionalities are abstracted in `Hero.java`, `Monster.java`, `Item.java`, `Loader.java`, and `Space.java`.
+- Inheritance & Code Reusability: Common functionalities are abstracted in `Hero.java`, `Monster.java`, `Item.java`, `Loader.java`, `Characters.java`, `Loader.java`, and `Space.java`.
 - Separation: Each game has its own dedicated files, improving modularity.
-- Scalability: New New heroes, monsters, items, loader for each class, space can be extended from each superclass.
+- Scalability: New heroes, monsters, items, loader for each class, and space types can be easily extended from respective superclass.
 - For the custom world, maximum size is 10x10
 - I thought about subdividing Potion, Spells, Weapon and Armor, but since the approach that I took did not have that many shared functions, I thought there wouldn't be that much advantages doing that so I decided to not subdivide those methods.
-- For the battle, when the heroes' level is low, it is more likely that the battle will end in one round. However, if the heroes' level gets higher, it is more likely that the battle will be longer. 
 - When asking for user inputs, the index usually starts at 0, and -1 means cancel or exit
 - All the txt files about items, monsters, and heroes has to be in the same directory as java files to run this game.
 
@@ -55,7 +50,6 @@ Game Controls (instructions are given all the time):
 - S/s: Move down
 - D/d: Move right
 - STATS/stats: Display statistics of heroes and monsters
-- M/m: Enter market (if on a market tile)
 - INV/inv: Display inventory. Heroes could equip items
 - MAP/map: display World map
 - Q/q: Quit game
@@ -75,35 +69,48 @@ Once it runs, follow the instructions that are given.
 
 ## Input/Output Example
 Since the example became so long, I will put shortened example:
-Let's play Monsters and Heroes !
-First, select your World (if you press any other invalid input, it will automatically choose the default world): 
-1. Default world (8x8)
-2. Custom World
-1
 Available Heroes:
-Select hero index to add to your party (max 3). Enter -1 to finish: 0
-Select hero index to add to your party (max 3). Enter -1 to finish: 1
-Select hero index to add to your party (max 3). Enter -1 to finish: -1
-Party setup complete!
- -- INSTRUCTION -- 
- -- WORLD MAP -- 
-Enter W/A/S/D to move, I for instruction, STATS for characters' statistics, M for market, INV for inventory, MAP for the map, and Q to quit ! 
-Party moved to (5, 2)
-Battle begins ! 
-Gaerdal_Ironhand's turn. Choose action:
-1. Attack   2. Cast Spell   3. Use Potion   4. Show Stats   Q. Quit
+--- HEROES INFORMATION ---
+
+Welcome to Legends of Valor!
+Instructions are to follow, but
+You'll now choose 3 of the above heroes to add to your party.
+Select hero index to add to your party: 1
+H1 assigned (7,0)
+Select hero index to add to your party: 2
+H2 assigned (7,3)
+Select hero index to add to your party: 3
+H3 assigned (7,6)
+Finished setting up the party !
+
+--- INSTRUCTIONS ---
+Round 1
+--- WORLD MAP ---
+H1 is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) n
+Not entering market.
+
+H1's turn. Choose an action:
+1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit 
+1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit 
 1
- -- BATTLE GOES ON -- 
-Enter W/A/S/D to move, I for instruction, STATS for characters' statistics, M for market, INV for inventory, MAP for the map, and Q to quit ! m
+Enter W/A/S/D to move: w
+
+--- CORRESPONDING ACTIONS HAPPENS ---
+
+H1 is in Heroes' Nexus space. Do you want to enter a market ? (Y/N) (Any invalid inputs will considered No) y
+
+Entering a market !
 Welcome to the Market!
 
 Market Menu: 1. Buy  2. Sell  3. Repair  4. Exit
- -- BUY/SELL/REPAIR ITEMS -- 
+1
+--- AVAILBLE ITEMS ---
+Enter the index of the item to buy (or type 'exit' to cancel): exit
 
-Enter W/A/S/D to move, I for instruction, STATS for characters' statistics, M for market, INV for inventory, MAP for the map, and Q to quit ! inv
-[0]Gaerdal_Ironhand's Inventory:
-Invalid Input; Enter index to equip item or -1 to skip:
--1
+H1's turn. Choose an action:
+1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit 
+q
+Quitting the game ...
 
 ---
 
@@ -127,9 +134,10 @@ Document any known bugs, limitations, or unfinished features.
 
 - Tested with small and large input sizes for integer inputs
 - Tested all the edges cases: inputting characters or strings when I have to type integer and vice versa
+- Checked behavior when characters move out of bounds or move to inaccessible space
 - Checked behavior with negative numbers or zero
 - Checked behavior with special characters
-- Tried to check for all the cases that could happen while playing that game including the ones below. However, since there are too many probabilities and possibilities, there might be ones that I was not able 
+- Tried to check for all the cases that could happen while playing that game including the ones in the instruction. However, since there are too many probabilities and possibilities, there might be ones that I was not able 
 
 ---
 
