@@ -13,7 +13,7 @@ public class ObstacleSpace extends Space {
     @Override
     public void onEnter(Hero hero) {
         if (!cleared) {
-            System.out.println(hero.getName() + " encountered an obstacle at (" + row + "," + col + "). Clearing it now...");
+            System.out.println(hero.getNickname() + " encountered an obstacle at (" + row + "," + col + "). Clearing it now...");
             cleared = true;
         }
     }

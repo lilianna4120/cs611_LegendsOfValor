@@ -13,8 +13,7 @@ public class NexusSpace extends Space {
     @Override
     public void onEnter(Hero hero) {
         if (row == 0) {
-            // Monsters' Nexus: if a hero enters here, they win.
-            System.out.println(Utility.GREEN + hero.getName() + " has reached the Monsters' Nexus! Heroes win!" + Utility.RESET);
+            System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win!" + Utility.RESET);
             System.exit(0);
         }
     }

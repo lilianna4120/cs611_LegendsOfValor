@@ -42,6 +42,7 @@ public abstract class Hero extends Characters {
     public void setPosition(int row, int col){
         this.row = row;
         this.col = col;
+
     }
 
     public int[] getPosition() {
@@ -288,7 +289,6 @@ public abstract class Hero extends Characters {
         } else if(stat == "strength"){
             this.strength += bonus;
         }
-        System.out.println(name + "'s " + stat + " increased by " + bonus + " while the hero is in that space.");
     }
 
     public int getLane(){
