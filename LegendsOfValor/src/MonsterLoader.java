@@ -41,9 +41,9 @@ public class MonsterLoader extends Loader<Monster> {
     // to load weapon items
     public List<Monster> loadAllMonsters() {
         List<Monster> monsters = new ArrayList<>();
-        monsters.addAll(loadItemsFromFile("LegendsOfValor/src/Dragons.txt", "Dragon"));
-        monsters.addAll(loadItemsFromFile("LegendsOfValor/src/Exoskeletons.txt", "Exoskeleton"));
-        monsters.addAll(loadItemsFromFile("LegendsOfValor/src/Spirits.txt", "Spirit"));
+        monsters.addAll(loadItemsFromFile("Dragons.txt", "Dragon"));
+        monsters.addAll(loadItemsFromFile("Exoskeletons.txt", "Exoskeleton"));
+        monsters.addAll(loadItemsFromFile("Spirits.txt", "Spirit"));
         return monsters;
     }
 

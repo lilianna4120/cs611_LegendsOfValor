@@ -40,9 +40,9 @@ public class HeroLoader extends Loader<Hero> {
     // to load hero items
     public List<Hero> loadAllHeroes() {
         List<Hero> heroes = new ArrayList<>();
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Warriors.txt", "Warriors"));
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Sorcerers.txt", "Sorcerers"));
-        heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Paladins.txt", "Paladins"));
+        heroes.addAll(loadItemsFromFile("Warriors.txt", "Warriors"));
+        heroes.addAll(loadItemsFromFile("Sorcerers.txt", "Sorcerers"));
+        heroes.addAll(loadItemsFromFile("Paladins.txt", "Paladins"));
         return heroes;
     }
 }

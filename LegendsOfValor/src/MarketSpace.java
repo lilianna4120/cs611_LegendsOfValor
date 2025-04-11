@@ -18,12 +18,12 @@ public class MarketSpace {
     public MarketSpace(int row, int col) {
         itemsForSale = new ArrayList<>();
         List<Item> allItems = new ArrayList<>();
-        allItems.addAll(ArmorLoader.loadArmoryItems("LegendsOfValor/src/Armory.txt"));
-        allItems.addAll(SpellLoader.loadSpellItems("LegendsOfValor/src/FireSpells.txt", "Fire"));
-        allItems.addAll(SpellLoader.loadSpellItems("LegendsOfValor/src/IceSpells.txt", "Ice"));
-        allItems.addAll(SpellLoader.loadSpellItems("LegendsOfValor/src/LightningSpells.txt", "Lightning"));
-        allItems.addAll(PotionLoader.loadPotionItems("LegendsOfValor/src/Potions.txt"));
-        allItems.addAll(WeaponLoader.loadWeaponItems("LegendsOfValor/src/Weaponry.txt"));
+        allItems.addAll(ArmorLoader.loadArmoryItems("Armory.txt"));
+        allItems.addAll(SpellLoader.loadSpellItems("FireSpells.txt", "Fire"));
+        allItems.addAll(SpellLoader.loadSpellItems("IceSpells.txt", "Ice"));
+        allItems.addAll(SpellLoader.loadSpellItems("LightningSpells.txt", "Lightning"));
+        allItems.addAll(PotionLoader.loadPotionItems("Potions.txt"));
+        allItems.addAll(WeaponLoader.loadWeaponItems("Weaponry.txt"));
     
         Random rand = new Random();
         int itemsNum = allItems.size();
