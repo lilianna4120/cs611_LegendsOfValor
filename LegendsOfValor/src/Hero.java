@@ -1,3 +1,10 @@
+/*
+ * Hero.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that represents a Hero, where each Hero has a variety of important attributes and methods.
+ * Extends Character and overrides various methods.
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;

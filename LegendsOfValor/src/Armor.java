@@ -1,3 +1,11 @@
+/*
+ * Armor.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents an Armor, where each Armor has a variety of important attributes
+ * that play a factor into its effect in methods in Game class.
+ * Extends Item, overriding its key method: display().
+ */
 public class Armor extends Item {
     // private variable to get damage of armor item
     private double damageReduction;

@@ -1,3 +1,9 @@
+/*
+ * Characters.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that represents a Character in the Game of Legends of Valor.
+ */
 public abstract class Characters {
     // private variables for characters
     protected String name;

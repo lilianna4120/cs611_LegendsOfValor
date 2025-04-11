@@ -1,3 +1,10 @@
+/*
+ * Paladin.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Paladin, where each Paladin has a variety of important attributes.
+ * Extends Hero and overrides attack() method.
+ */
 class Paladin extends Hero {
     // public constructor for paladin method
     public Paladin(String name, int mp, int strength, int agility, int dexterity, int gold, int experience) {

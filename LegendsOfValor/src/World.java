@@ -1,3 +1,11 @@
+/*
+ * World.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents the World in a game of Legends of Valor.
+ * Contains a grid of different types of Spaces.
+ */
+
 import java.util.Random;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -55,7 +63,7 @@ public class World{
         }
     }
 
-    // accessor method for world class
+    // accessor methods for world class
     public Space getSpace(int row, int col){
         return grid[row][col];
     }

@@ -1,3 +1,9 @@
+/*
+ * Party.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Party containing the Heroes and Monsters in the Game.
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

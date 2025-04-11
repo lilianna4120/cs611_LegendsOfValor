@@ -1,3 +1,11 @@
+/*
+ * Utility.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that allows programmer to easily access String constants
+ * to add color to the text and background of the terminal + to create generic 
+ * features to be printed out.
+ */
 public class Utility {
     // to add color in terminal
     public static final String RESET  = "\u001B[0m";

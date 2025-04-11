@@ -1,3 +1,11 @@
+/*
+ * Spell.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Spell, where each Spell has a variety of important attributes
+ * that play a factor into its effect in methods in Game class.
+ * Extends Item, overriding its key method: display().
+ */
 public class Spell extends Item {
     // private variables for spell class
     private double damage;

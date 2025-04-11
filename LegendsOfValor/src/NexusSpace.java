@@ -1,3 +1,10 @@
+/*
+ * NexusSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a NexusSpace within the World of Legends of Valor.
+ * Extends Space and overrides various methods.
+ */
 public class NexusSpace extends Space {
     // public constructor for nexus space
     public NexusSpace(int row, int col) {
@@ -13,10 +20,10 @@ public class NexusSpace extends Space {
     // if hero reaches monsters' nexus, they win
     @Override
     public void onEnter(Hero hero) {
-        if (row == 0) {
-            System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win!" + Utility.RESET);
-            System.exit(0);
-        }
+        // if (row == 0) {
+        //     System.out.println(Utility.GREEN + hero.getNickname() + " has reached the Monsters' Nexus! Heroes win!" + Utility.RESET);
+        //     System.exit(0);
+        // }
     }
 
     // if the hero leaves the nexus space

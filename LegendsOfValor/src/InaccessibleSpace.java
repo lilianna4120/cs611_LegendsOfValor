@@ -1,3 +1,10 @@
+/*
+ * InaccessibleSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents an InaccessibleSpace within the World of Legends of Valor.
+ * Extends Space and overrides various methods.
+ */
 public class InaccessibleSpace extends Space {
     // public constructor for inaccessible space class
     public InaccessibleSpace(int row, int col) {

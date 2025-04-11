@@ -1,3 +1,9 @@
+/*
+ * Space.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that represents a Space within the World of Legends of Valor.
+ */
 import java.util.List;
 
 public abstract class Space {
@@ -11,7 +17,7 @@ public abstract class Space {
         this.col = col;
     }
 
-    // abstract methods
+    // abstract methods to be overriden by subclasses of Space
     public abstract boolean isAccessible();
     public abstract void display();
     public abstract void onEnter(Hero hero);
@@ -26,6 +32,20 @@ public abstract class Space {
 
         for (Hero hero : heroes) {
             if (hero.getRow() == this.row && hero.getCol() == this.col && hero.isAlive()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    // to check if the space is occupied by a monster so other monsters can't move there
+    public boolean isNotOccupiedbyMonster(List<Monster> monsters) {
+        if (!isAccessible()) {
+            return false;
+        }
+
+        for (Monster monster : monsters) {
+            if (monster.getRow() == this.row && monster.getCol() == this.col && monster.isAlive()) {
                 return false;
             }
         }

@@ -1,3 +1,11 @@
+/*
+ * Weapon.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a Weapon, where each Weapon has a variety of important attributes
+ * that play a factor into its effect in methods in Game class.
+ * Extends Item, overriding its key method: display().
+ */
 public class Weapon extends Item {
     // private variables for weapon class
     private double damage;

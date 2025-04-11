@@ -1,3 +1,10 @@
+/*
+ * Monster.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that represents a Monster, where each Monster has a variety of important attributes and methods.
+ * Extends Character and overrides various methods.
+ */
 public abstract class Monster extends Characters {
     // protected varaibles for monster class
     protected double baseDamage;

@@ -1,3 +1,9 @@
+/*
+ * Loader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Abstract class that provides methods for loading objects from a file and creating a list of generic type.
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

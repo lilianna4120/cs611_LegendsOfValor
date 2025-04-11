@@ -1,3 +1,10 @@
+/*
+ * HeroLoader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that loads in a list of Hero objects from specified files.
+ * Extends Loader and replaces the generic type with Hero.
+ */
 import java.util.*;
 
 public class HeroLoader extends Loader<Hero> {

@@ -1,3 +1,10 @@
+/*
+ * WeaponLoader.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that loads in a list of Weapon objects from passed in files.
+ * Extends Loader and replaces the generic type with Weapon.
+ */
 import java.util.List;
 
 public class WeaponLoader extends Loader<Weapon> {

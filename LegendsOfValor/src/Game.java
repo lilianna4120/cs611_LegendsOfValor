@@ -1,3 +1,9 @@
+/*
+ * Game.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that contains all necessary logic and methods to play a Game of Legends of Valor.
+ */
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +42,12 @@ public class Game{
                 if(h.isAlive()){
                     world.display(party);
                     processHeroTurn(h);
+                    // to check if hero won (checkWinCondition is to check both heroes and monsters win condition but since it is after heroes' turn)
+                    if(checkWinCondition()){
+                        quit = true;
+                        break;
+                    }
                 }
-            }
-
-            // to check if hero won (checkWinCondition is to check both heroes and monsters win condition but since it is after heroes' turn)
-            if(checkWinCondition()){
-                quit = true;
-                break;
             }
 
             // monsters turn (all of them)
@@ -91,8 +96,17 @@ public class Game{
 
         System.out.println("\n");
         System.out.println("Thank you for playing ! ");
-        // displayScoreSummary();
-        System.out.println("Bye ! ");
+        System.out.println("Do you want to play again? Y/N (all other responses will be treated as 'no')");
+        Scanner scan = new Scanner(System.in);
+        String response = scan.next();
+        if(response.equalsIgnoreCase("y")) {
+            Game game = new Game();
+            game.start();
+        }
+        else {
+            // displayScoreSummary();
+            System.out.println("Bye ! ");
+        }
     }
 
     public void setupParty() {
@@ -198,7 +212,7 @@ public class Game{
             }
             monstersNum ++;
             String n = "M" + monstersNum;
-            chosenMonster.setNickname(n);(n);
+            chosenMonster.setNickname(n);
             chosenMonster.setPosition(0, i*3 + 1);
             party.addMonster(chosenMonster);
         }
@@ -609,7 +623,7 @@ public class Game{
             }
         } else {
             // or move if there is no hero around monster
-            boolean moved = MovementUtil.moveMonster(monster, "S", world);
+            boolean moved = MovementUtil.moveMonster(monster, "S", party, world);
             if (!moved) {
                 // cannot move if that space is inaccessible
                 System.out.println(monster.getNickname() + " cannot move south.");

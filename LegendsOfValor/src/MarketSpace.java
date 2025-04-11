@@ -1,3 +1,10 @@
+/*
+ * MarketSpace.java
+ * by Lily Jihyun Son and Grace Elias
+ * 
+ * Class that represents a MarketSpace within the World of Legends of Valor.
+ * Does not extend Space in the way other ____Space classes do but is rather associated with a NexusSpace. 
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
