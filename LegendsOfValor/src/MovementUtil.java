@@ -62,6 +62,7 @@ public class MovementUtil {
         }
         
         hero.setPosition(newRow, newCol);
+        world.getSpace(newRow, newCol).onEnter(hero);
         System.out.println(hero.getNickname() + " moved to (" + newRow + ", " + newCol + ").");
         return true;
     }

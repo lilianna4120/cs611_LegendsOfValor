@@ -30,6 +30,20 @@ public abstract class Monster extends Characters {
         }
     }
 
+    public void takeDefense(double defense){
+        double newDefense = this.defense - defense;
+        if(newDefense < 0){
+            newDefense = 0;
+        }
+    }
+
+    public void takeDodgeChange(double dodgeChange) {
+        double newDodgeChance = this.dodgeChance - dodgeChange;
+        if(newDodgeChance < 0){
+            newDodgeChance = 0;
+        }
+    }
+
     // implement in character.java so that both hero and monster inherits it !!
     public boolean isAlive(){
         return hp > 0;

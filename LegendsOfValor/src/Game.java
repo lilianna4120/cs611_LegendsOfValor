@@ -436,6 +436,17 @@ public class Game{
                             double spellDamage = spell.getDamage() + (hero.dexterity / 10000.0) * spell.getDamage();
                             System.out.println(Utility.CYAN + hero.getNickname() + " casts " + spell.getName() + " dealing " + spellDamage + " damage." + Utility.RESET);
                             monster.takeDamage(spellDamage);
+                            // take additional effect depending on spell type
+                            if(spell.getSpellType().equalsIgnoreCase("Ice")){
+                                monster.takeDamage(spellDamage*0.5);
+                                System.out.println(Utility.BLUE + hero.getNickname() + " takes additional " + (spellDamage*0.5) + " attack damage to " + monster.getNickname() + " since it is Ice Spell !" + Utility.RESET);
+                            }else if(spell.getSpellType().equalsIgnoreCase("Fire")){
+                                monster.takeDefense(spellDamage*0.5);
+                                System.out.println(Utility.BLUE + hero.getNickname() + " takes additional " + (spellDamage*0.5) + " defense damage to " + monster.getNickname() + " since it is Fire Spell !" + Utility.RESET);
+                            }else if(spell.getSpellType().equalsIgnoreCase("Lightning")){
+                                monster.takeDodgeChange(spellDamage*0.1);
+                                System.out.println(Utility.BLUE + hero.getNickname() + " takes additional " + (spellDamage*0.1) + " dodge change damage to " + monster.getNickname() + " since it is Lightning Spell !" + Utility.RESET);
+                            }
                             if (!monster.isAlive()) {
                                 System.out.println(Utility.GREEN + monster.getNickname() + " is defeated!"+ Utility.RESET);
                             }
