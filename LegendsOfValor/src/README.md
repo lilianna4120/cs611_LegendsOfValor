@@ -91,7 +91,6 @@ Not entering market.
 
 H1's turn. Choose an action:
 1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit 
-1. Move  2. Attack  3. Use Potion  4. Teleport  5. Recall  6. Remove Obstacle  7. Cast Spell 8. Change Weapon/Armor Q. Quit 
 1
 Enter W/A/S/D to move: w
 
@@ -125,7 +124,6 @@ List any required software, libraries, or configurations.
 ## Known Issues or Bugs
 
 Document any known bugs, limitations, or unfinished features.
- - Battle ends quickly (either monster or hero wins) when the hero's level is low. When it gets higher, the battle goes for multiple rounds. I tried to try multiple damage/attack range to solve this, but this is the one I found most optimal.
  - Luckily, when I tested all the edges cases(maybe not all the edge cases since there are so many user inputs, but all the ones I tested), I couldn't find one, but please let me know if there is so that I can fix it for the future assignments. Thank you!
 
 ---
