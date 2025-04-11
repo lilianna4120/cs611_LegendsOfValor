@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class World{
+    // private variables for world class
     private Space[][] grid;
     private int width;
     private int height;
     private Map<String, NexusSpace> map = new HashMap<>();
 
+    // public constructor for world class
     public World(int width, int height){
         this.width = width;
         this.height = height;
@@ -17,6 +19,7 @@ public class World{
         generateWorld();
     }
 
+    // generate the world
     private void generateWorld(){
         Random rand = new Random();
         for(int i = 0; i < height; i++){
@@ -36,6 +39,7 @@ public class World{
         }
     }
 
+    // generate the random space
     private Space randomlyAssign(Random rand, int row, int col){
         int r = rand.nextInt(100);
         if(r < 20){
@@ -51,18 +55,23 @@ public class World{
         }
     }
 
+    // accessor method for world class
     public Space getSpace(int row, int col){
         return grid[row][col];
     }
 
-    // public MarketSpace getMarketAt(Position p){
-    //     String key = p.getRow() + "," + p.getCol();
-    //     return marketMap.get(key);
-    // }
+    public int getWidth(){
+        return width;
+    }
 
+    public int getHeight(){
+        return height;
+    }
+
+    // display the world
     public void display(Party party){
         System.out.println();
-        System.out.println(Utility.BLUE + "World Board:" + Utility.RESET);
+        System.out.println(Utility.BLUE + "World Map:" + Utility.RESET);
 
         System.out.println(Utility.BLACK_BACKGROUND + "                                                                                          " + Utility.RESET);
         for(int i = 0; i < 8; i++) {
@@ -141,14 +150,7 @@ public class World{
         System.out.println(Utility.BLACK_BACKGROUND + "                                                                                          " + Utility.RESET);
     }
 
-    public int getWidth(){
-        return width;
-    }
-
-    public int getHeight(){
-        return height;
-    }
-
+    // when printing map is requested
     public void printMap(Party party) {
         System.out.println(Utility.CYAN + "Printing The World Map: " + Utility.RESET);
         this.display(party);

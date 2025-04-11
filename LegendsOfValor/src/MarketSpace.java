@@ -4,8 +4,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MarketSpace {
+    // private variable for market space class
     private List<Item> itemsForSale;
 
+    // public constructor for market space class
     public MarketSpace(int row, int col) {
         itemsForSale = new ArrayList<>();
         List<Item> allItems = new ArrayList<>();
@@ -31,6 +33,7 @@ public class MarketSpace {
         }
     }
 
+    // when a hero enter a market space
     public void enterMarket(Hero hero, Party party, World world) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(Utility.YELLOW + "Welcome to the Market!" + Utility.RESET);
@@ -40,6 +43,7 @@ public class MarketSpace {
             while(true) {
                 System.out.println("\nMarket Menu: 1. Buy  2. Sell  3. Repair  4. Exit");
                 choice = scanner.nextLine();
+                // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                 if(choice.equalsIgnoreCase("i")) {
                     Game.printInstructions();
                 } else if(choice.equalsIgnoreCase("stats")) {
@@ -56,7 +60,7 @@ public class MarketSpace {
                 }
             }
             switch (choice) {
-                case "1":
+                case "1": // buy
                 showItems();
                 String input = "";
                 while(true) {
@@ -64,6 +68,7 @@ public class MarketSpace {
                     input = scanner.nextLine();
                     if(input.equalsIgnoreCase("exit")) {
                         break;
+                    // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                     } else if(input.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(input.equalsIgnoreCase("stats")) {
@@ -116,7 +121,7 @@ public class MarketSpace {
                     System.out.println(Utility.RED + "Invalid input. Please enter a valid integer." + Utility.RESET);
                 }
                     break;
-                case "2":
+                case "2": // sell
 
                 String sellInput = "";
                 while(true) {
@@ -128,6 +133,7 @@ public class MarketSpace {
                     sellInput = scanner.nextLine();
                     if(sellInput.equalsIgnoreCase("exit")) {
                         break;
+                    // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                     } else if(sellInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(sellInput.equalsIgnoreCase("stats")) {
@@ -152,7 +158,6 @@ public class MarketSpace {
                         Item sellItem = hero.getInventory().remove(sellIdx);
                         int salePrice = sellItem.getPrice() / 2;
                         hero.gold += salePrice;
-                        // Optionally, add the sold item to the market's inventory.
                         itemsForSale.add(sellItem);
                         System.out.println(Utility.GREEN + hero.getName() + " sold " + sellItem.getName() + " for " + salePrice + " gold." + Utility.RESET);
                     } else {
@@ -162,7 +167,7 @@ public class MarketSpace {
                     System.out.println(Utility.RED + "Invalid input. Please enter a valid integer for the item index." + Utility.RESET);
                 }
                 break;
-                case "3":
+                case "3": // repair
                 String itemInput = "";
                 while(true) {
                     System.out.println(Utility.YELLOW + hero.getNickname() + "'s Inventory: " + Utility.RESET);
@@ -173,6 +178,7 @@ public class MarketSpace {
                     itemInput = scanner.nextLine();
                     if(itemInput.equalsIgnoreCase("exit")) {
                         break;
+                    // player should be able to access instruction, characters' statistics, inventory, map or quit at anytime
                     } else if(itemInput.equalsIgnoreCase("i")) {
                         Game.printInstructions();
                     } else if(itemInput.equalsIgnoreCase("stats")) {
@@ -210,8 +216,8 @@ public class MarketSpace {
                     System.out.println(Utility.RED + "Invalid input. Please enter a valid integer for the item index." + Utility.RESET);
                 }
                 break;
-                case "4":
-                    System.out.println("Exiting market!");
+                case "4": // exit
+                    System.out.println("Exiting market !");
                     exit = true;
                     break;
                 default:
@@ -221,6 +227,7 @@ public class MarketSpace {
         }
     }
 
+    // show itmes in the market
     public void showItems() {
         System.out.println("\nItems available in this market: ");
         for (int i = 0; i < itemsForSale.size(); i++) {

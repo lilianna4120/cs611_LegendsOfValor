@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class WeaponLoader extends Loader<Weapon> {
+    // overriden method to parse when reading weapon files
     @Override
     protected Weapon parseLine(String line) {
         String[] parts = line.split("\\s+");
@@ -15,6 +16,7 @@ public class WeaponLoader extends Loader<Weapon> {
         return null;
     }
 
+    // to load weapon items
     public static List<Weapon> loadWeaponItems(String filename) {
         return new WeaponLoader().loadItemsFromFile(filename);
     }

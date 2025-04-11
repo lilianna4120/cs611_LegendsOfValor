@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class HeroLoader extends Loader<Hero> {
+
+    // overriden method to parse when reading hero files
     @Override
     protected Hero parseLine(String line) {
         return parseLine(line, null);
@@ -28,6 +30,7 @@ public class HeroLoader extends Loader<Hero> {
         
     }
 
+    // to load hero items
     public List<Hero> loadAllHeroes() {
         List<Hero> heroes = new ArrayList<>();
         heroes.addAll(loadItemsFromFile("LegendsOfValor/src/Warriors.txt", "Warriors"));

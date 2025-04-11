@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class PotionLoader extends Loader<Potion> {
+    // overriden method to parse when reading potion file
     @Override
     protected Potion parseLine(String line) {
         String[] parts = line.split("\\s+");
@@ -15,6 +16,7 @@ public class PotionLoader extends Loader<Potion> {
         return null;
     }
 
+    // to load potion items
     public static List<Potion> loadPotionItems(String filename) {
         return new PotionLoader().loadItemsFromFile(filename);
     }

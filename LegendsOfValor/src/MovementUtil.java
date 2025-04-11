@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// handles restrictions when character moves
 public class MovementUtil {
+
     public static boolean moveHero(Hero hero, String direction, Party party, World world) {
         int currentRow = hero.getRow();
         int currentCol = hero.getCol();
@@ -26,29 +28,25 @@ public class MovementUtil {
                 return false;
         }
         
+        // check out of bounds
         if (newRow < 0 || newRow >= world.getHeight() || newCol < 0 || newCol >= world.getWidth()) {
             System.out.println(Utility.YELLOW + "Invalid input; you can't move out of bounds." + Utility.RESET);
             return false;
         }
         
+        // check if it is accessible
         if (!world.getSpace(newRow, newCol).isAccessible()) {
             System.out.println(Utility.YELLOW + "Invalid input; the cell you are trying to go is not accessible." + Utility.RESET);
             return false;
         }
 
+        // check if it is occupied by other heroes
         if(!world.getSpace(newRow, newCol).isNotOccupiedbyHero(party.getHeroes())){
             System.out.println(Utility.YELLOW + "You can not move there; it is occupied by other hero !" + Utility.RESET);
             return false;
         }
-        
-        // for (Hero h : party.getHeroes()) {
-        //     if (h != hero && h.isAlive() && h.getRow() == newRow && h.getCol() == newCol) {
-        //         System.out.println("Invalid input; the cell you are tring to go is already occupied by " + h.getNickname() + ".");
-        //         return false;
-        //     }
-        // }
-        
      
+        // check if there is a monster around the hero; can't go pass the monster without defeating them
         for (Monster m : party.getMonsters()) {
             if(m.isAlive() && Math.abs(m.getRow() - currentRow) <= 1 && Math.abs(m.getCol() - currentCol) <= 1){
                 int mRow = m.getRow();
@@ -91,9 +89,11 @@ public class MovementUtil {
                 return false;
         }
         
+        // check out of bounds
         if (newRow < 0 || newRow >= world.getHeight() || newCol < 0 || newCol >= world.getWidth()) {
             return false;
         }
+        // check if the space is accessible
         if (!world.getSpace(newRow, newCol).isAccessible()) {
             return false;
         }
@@ -127,12 +127,13 @@ public class MovementUtil {
                 return false;
         }
         
-        if (targetRow < 0 || targetRow >= world.getHeight() ||
-            targetCol < 0 || targetCol >= world.getWidth()) {
+        // check out of bounds
+        if (targetRow < 0 || targetRow >= world.getHeight() || targetCol < 0 || targetCol >= world.getWidth()) {
             System.out.println("Target cell is out of bounds.");
             return false;
         }
         
+        // remove obstacle
         Space targetSpace = world.getSpace(targetRow, targetCol);
         if (targetSpace instanceof ObstacleSpace) {
             ObstacleSpace obstacle = (ObstacleSpace) targetSpace;
@@ -156,6 +157,7 @@ public class MovementUtil {
         int targetRow = target.getRow();
         int targetCol = target.getCol();
 
+        // check which space around target hero is accessible
         if(targetRow + 1 < world.getHeight() && world.getSpace(targetRow+1, targetCol).isNotOccupiedbyHero(party.getHeroes())){
             String grid = "(" + (targetRow + 1) + ", " + targetCol + ")";
             availableSpaces.add(grid);

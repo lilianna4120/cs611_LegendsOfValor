@@ -3,16 +3,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Party {
+    // private variables for party class
     private List<Hero> heroes;
     private List<Monster> monsters;
     private List<Hero> deadHeroes;
 
+    // public constructor for party class
     public Party() {
         heroes = new ArrayList<>();
         monsters = new ArrayList<>();
         deadHeroes = new ArrayList<>();
     }
 
+    // to add or remove party members
     public void addHero(Hero hero){
         if (heroes.size() < 3) {
             heroes.add(hero);
@@ -29,6 +32,7 @@ public class Party {
         monsters.remove(monster);
     }
 
+    // accessor method of party class
     public List<Hero> getHeroes() {
         return heroes;
     }
@@ -71,6 +75,7 @@ public class Party {
     //     System.out.println(Utility.YELLOW + "Party moved to (" + (newRow+1) + ", " + (newCol+1) + ")" + Utility.RESET);
     // }
 
+    // display party information; includes all characters
     public void displayInfo(){
         System.out.println(Utility.CYAN + "Heroes Information:" + Utility.RESET);
         for(Hero h: heroes){
@@ -95,6 +100,7 @@ public class Party {
         }
     }
 
+    // check if all the heroes or monsters are dead
     public boolean heroesDefeated(){
         for(Hero h: heroes){
             if(h.isAlive()){
@@ -104,29 +110,12 @@ public class Party {
         return true;
     }
 
-    public boolean mosntersDefeated(){
-        for(Monster m: monsters){
-            if(m.isAlive()){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // public void setRandomPosition(World world) {
-    //     Random rand = new Random();
-    //     int width = world.getWidth();
-    //     int height = world.getHeight();
-    //     while (true) {
-    //         int r = rand.nextInt(height);
-    //         int c = rand.nextInt(width);
-    //         Position newPos = new Position(r, c);
-    //         if (!(world.getTile(newPos) instanceof InaccessibleTile)) {
-    //             this.position.setRow(r);
-    //             this.position.setCol(c);
-    //             break;
+    // public boolean monstersDefeated(){
+    //     for(Monster m: monsters){
+    //         if(m.isAlive()){
+    //             return false;
     //         }
     //     }
+    //     return true;
     // }
-
 }

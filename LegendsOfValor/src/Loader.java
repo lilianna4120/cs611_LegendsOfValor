@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Loader<T> {
+    // to load general items
     protected List<T> loadItemsFromFile(String filename) {
         List<T> items = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
@@ -23,7 +24,7 @@ public abstract class Loader<T> {
         return items;
     }
     
-    // overloaded loader that accepts an extra type parameter.
+    // overloaded loader that accepts an extra type parameter
     protected List<T> loadItemsFromFile(String filename, String type) {
         List<T> items = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
@@ -45,7 +46,7 @@ public abstract class Loader<T> {
     // abstract method for parsing a line (without extra info)
     protected abstract T parseLine(String line);
     
-    // overloaded parseLine method that takes a type parameter.
+    // overloaded parseLine method that takes a type parameter
     protected T parseLine(String line, String type) {
         return parseLine(line);
     }

@@ -2,6 +2,7 @@ import java.util.List;
 
 public class ArmorLoader extends Loader<Armor> {
 
+    // overriden method to parse when reading armor file
     @Override
     protected Armor parseLine(String line) {
         String[] parts = line.split("\\s+");
@@ -15,6 +16,7 @@ public class ArmorLoader extends Loader<Armor> {
         return null;
     }
 
+    // to load armory items
     public static List<Armor> loadArmoryItems(String filename) {
         return new ArmorLoader().loadItemsFromFile(filename);
     }

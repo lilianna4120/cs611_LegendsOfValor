@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class MonsterLoader extends Loader<Monster> {
 
+    // overriden method to parse when reading monster files
     protected Monster parseLine(String line, String type) {
         String[] parts = line.split("\\s+");
         if (parts.length < 5) return null;
@@ -30,6 +31,7 @@ public class MonsterLoader extends Loader<Monster> {
         return null;
     }
 
+    // to load weapon items
     public List<Monster> loadAllMonsters() {
         List<Monster> monsters = new ArrayList<>();
         monsters.addAll(loadItemsFromFile("LegendsOfValor/src/Dragons.txt", "Dragon"));
@@ -38,6 +40,7 @@ public class MonsterLoader extends Loader<Monster> {
         return monsters;
     }
 
+    // to generate monster in each lane
     public static List<Monster> generateThreeMonsters(int level){
         MonsterLoader mLoader = new MonsterLoader();
         List<Monster> allMonsters = mLoader.loadAllMonsters();
